@@ -28,8 +28,8 @@ public class batalhaNaval {
         // Posicionando Navio jogador
 
         Scanner lerPosicoes = new Scanner(System.in);
-        int numeroNavios = 0;
 
+        int numeroNavios = 0;
         char[][] naviosJogador = lerPosicoesNavios();
 
         while(numeroNavios < naviosJogador.length){
@@ -59,9 +59,6 @@ public class batalhaNaval {
                     System.out.print(tabuleiroJogador[i][j]);
                 }
             }
-
-
-
             //OBS: validar as entradas e assegurar que não existe navio posicionado no local
         }
 
@@ -69,13 +66,12 @@ public class batalhaNaval {
         // Posicionar navio computador
 
         int numeroNaviosComputador = 0;
+        char[][] naviosComputador = criarPosicoesAleatorias(letras, numeros);
 
-        while(numeroNaviosComputador<3){
-            int numeroLinha = (int) (Math.random()*4);
-            int numeroColuna = (int) (Math.random()*4);
+        while(numeroNaviosComputador < naviosComputador.length){
 
-            char posicaoLinha = numeros[numeroLinha];
-            char posicaoColuna = letras[numeroColuna];
+            char posicaoLinha = naviosComputador[numeroNaviosComputador][0];
+            char posicaoColuna = naviosComputador[numeroNaviosComputador][1];
 
             for (int i = 0; i< tabuleiroComputador.length;i++){
                 if(tabuleiroComputador[i][1] == posicaoLinha){
@@ -190,6 +186,22 @@ public class batalhaNaval {
         }
     }
 
+    private static char[][] criarPosicoesAleatorias(char[] letras, char[] numeros) {
+        char[][] naviosComputador = new char[3][2];
+        int numeroLinha;
+        int numeroColuna;
+
+        for (int i = 0; i < naviosComputador.length; i++) {
+            numeroLinha = (int) (Math.random()*4);
+            naviosComputador[i][0] = numeros[numeroLinha];
+
+            numeroColuna = (int) (Math.random()*4);
+            naviosComputador[i][1] = letras[numeroColuna];
+        }
+
+        return naviosComputador;
+    }
+
     private static char[][] lerPosicoesNavios() {
         char[][] naviosJogador = new char[3][2];
 
@@ -204,6 +216,8 @@ public class batalhaNaval {
         }
 
         return naviosJogador;
+
+        // Fazer validacao se ja existe navio na posicao escolhida
     }
 
     private static char[][] criarTabuleiro(char[] letras, char[] numeros) {
