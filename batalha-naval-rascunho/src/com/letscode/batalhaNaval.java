@@ -16,14 +16,7 @@ public class batalhaNaval {
         // Criar tabuleiro computador
         char[][] tabuleiroComputador = criarTabuleiro(letras, numeros);
 
-        // Exibir tabuleiroJogador
-        System.out.printf("Tabuleiro Jogador");
-        for(int i = 0; i < tabuleiroJogador.length; i++){
-            System.out.printf("\n");
-            for (int j = 0; j < tabuleiroJogador[i].length; j++){
-                System.out.print(tabuleiroJogador[i][j]);
-            }
-        }
+        exibirTabuleiro(tabuleiroJogador, "Jogador");
 
         // Posicionando Navio jogador
 
@@ -52,16 +45,10 @@ public class batalhaNaval {
                 }
             }
 
-            System.out.printf("Tabuleiro Jogador");
-            for(int i = 0; i< tabuleiroJogador.length;i++){
-                System.out.printf("\n");
-                for (int j = 0; j< tabuleiroJogador[i].length;j++){
-                    System.out.print(tabuleiroJogador[i][j]);
-                }
-            }
             //OBS: validar as entradas e assegurar que não existe navio posicionado no local
         }
 
+        exibirTabuleiro(tabuleiroJogador, "Jogador");
 
         // Posicionar navio computador
 
@@ -87,13 +74,7 @@ public class batalhaNaval {
             }
         }
 
-        System.out.printf("\nTabuleiro Computador");
-        for(int i = 0; i< tabuleiroComputador.length;i++){
-            System.out.printf("\n");
-            for (int j = 0; j< tabuleiroComputador[i].length;j++){
-                System.out.print(tabuleiroComputador[i][j]);
-            }
-        }
+        exibirTabuleiro(tabuleiroComputador, "Computador");
 
         // jogando
 
@@ -169,19 +150,23 @@ public class batalhaNaval {
                     }
                 }
 
-                System.out.printf("Tabuleiro Jogador");
-                for(int i = 0; i< tabuleiroJogador.length;i++){
-                    System.out.printf("\n");
-                    for (int j = 0; j< tabuleiroJogador[i].length;j++){
-                        System.out.print(tabuleiroJogador[i][j]);
-                    }
-                }
+                exibirTabuleiro(tabuleiroJogador, "Jogador");
 
                 if (numeroNavios == 0){                            //finalizando o jogo
                     System.out.printf("Visshh, você foi derrotado!");
                     status = "jogo finalizado";
                 }
 
+            }
+        }
+    }
+
+    private static void exibirTabuleiro(char[][] tabuleiro, String player) {
+        System.out.printf("\nTabuleiro %s", player);
+        for(int i = 0; i < tabuleiro.length; i++){
+            System.out.printf("\n");
+            for (int j = 0; j < tabuleiro[i].length; j++){
+                System.out.print(tabuleiro[i][j]);
             }
         }
     }
