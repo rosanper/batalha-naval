@@ -7,46 +7,20 @@ public class batalhaNaval {
 
     public static void main(String[] args) {
 
-        // criar o tabuleiroJogador
-
-        char[][] tabuleiroJogador = new char[10][10];
-
-        for(char[] linha: tabuleiroJogador){
-            Arrays.fill(linha,' ');
-        }
-
-        for(int i = 0; i< tabuleiroJogador.length;i++){
-            for (int j = 0; j< tabuleiroJogador[i].length;j = j + 2){
-                tabuleiroJogador[i][j] = '|';
-            }
-        }
-
-        for(int i = 0; i< tabuleiroJogador.length;i= i+2){
-            for (int j = 0; j< tabuleiroJogador[i].length;j++){
-                tabuleiroJogador[i][j] = '-';
-            }
-        }
-
-
         char[] letras = {'A','B','C','D','E','F'};
         char[] numeros = {'1','2','3','4','5','6'};
 
-        int indiceArray = 0;
-        for (int i = 3; i< tabuleiroJogador.length;i = i + 2){
-            tabuleiroJogador[i][1] = numeros[indiceArray];
-            indiceArray++;
-        }
+        // criar o tabuleiroJogador
+        char[][] tabuleiroJogador = criarTabuleiro(letras, numeros);
 
-        indiceArray = 0;
-        for (int j = 3; j< tabuleiroJogador[1].length;j = j + 2){
-            tabuleiroJogador[1][j] = letras[indiceArray];
-            indiceArray++;
-        }
+        // Criar tabuleiro computador
+        char[][] tabuleiroComputador = criarTabuleiro(letras, numeros);
 
+        // Exibir tabuleiroJogador
         System.out.printf("Tabuleiro Jogador");
-        for(int i = 0; i< tabuleiroJogador.length;i++){
+        for(int i = 0; i < tabuleiroJogador.length; i++){
             System.out.printf("\n");
-            for (int j = 0; j< tabuleiroJogador[i].length;j++){
+            for (int j = 0; j < tabuleiroJogador[i].length; j++){
                 System.out.print(tabuleiroJogador[i][j]);
             }
         }
@@ -92,38 +66,6 @@ public class batalhaNaval {
 
 
             //OBS: validar as entradas e assegurar que não existe navio posicionado no local
-        }
-
-        // Criar tabuleiro computador
-
-        char[][] tabuleiroComputador = new char[10][10];
-
-        for(char[] linha: tabuleiroComputador){
-            Arrays.fill(linha,' ');
-        }
-
-        for(int i = 0; i< tabuleiroComputador.length;i++){
-            for (int j = 0; j< tabuleiroComputador[i].length;j = j + 2){
-                tabuleiroComputador[i][j] = '|';
-            }
-        }
-
-        for(int i = 0; i< tabuleiroComputador.length;i= i+2){
-            for (int j = 0; j< tabuleiroComputador[i].length;j++){
-                tabuleiroComputador[i][j] = '-';
-            }
-        }
-
-        indiceArray = 0;
-        for (int i = 3; i< tabuleiroComputador.length;i = i + 2){
-            tabuleiroComputador[i][1] = numeros[indiceArray];
-            indiceArray++;
-        }
-
-        indiceArray = 0;
-        for (int j = 3; j< tabuleiroComputador[1].length;j = j + 2){
-            tabuleiroComputador[1][j] = letras[indiceArray];
-            indiceArray++;
         }
 
 
@@ -249,5 +191,38 @@ public class batalhaNaval {
 
             }
         }
+    }
+
+    private static char[][] criarTabuleiro(char[] letras, char[] numeros) {
+        int indiceArray = 0;
+        char[][] tabuleiro = new char[10][10];
+
+        for(char[] linha : tabuleiro){
+            Arrays.fill(linha,' ');
+        }
+
+        for(int i = 0; i < tabuleiro.length; i++){
+            for (int j = 0; j < tabuleiro[i].length; j = j + 2){
+                tabuleiro[i][j] = '|';
+            }
+        }
+
+        for(int i = 0; i < tabuleiro.length; i = i+2){
+            for (int j = 0; j < tabuleiro[i].length; j++){
+                tabuleiro[i][j] = '-';
+            }
+        }
+
+        for (int i = 3; i < tabuleiro.length; i = i + 2){
+            tabuleiro[i][1] = numeros[indiceArray];
+            indiceArray++;
+        }
+
+        indiceArray = 0;
+        for (int j = 3; j< tabuleiro[1].length;j = j + 2){
+            tabuleiro[1][j] = letras[indiceArray];
+            indiceArray++;
+        }
+        return tabuleiro;
     }
 }
