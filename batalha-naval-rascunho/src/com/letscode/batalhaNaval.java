@@ -15,23 +15,21 @@ public class batalhaNaval {
 
         exibirTabuleiro(tabuleiroJogador, "Jogador");
 
-        // Posicionando Navio jogador
+        // Posicionando navios do jogador
 
         char[][] naviosJogador = lerPosicoesNavios();
-
         int numeroNaviosJogador = posicionarNavios(tabuleiroJogador, naviosJogador);
 
         exibirTabuleiro(tabuleiroJogador, "Jogador");
 
-        // Posicionar navio computador
+        // Posicionando navios do computador
 
         char[][] naviosComputador = criarPosicoesAleatorias(letras, numeros);
-
         int numeroNaviosComputador = posicionarNavios(tabuleiroComputador, naviosComputador);
 
         exibirTabuleiro(tabuleiroComputador, "Computador");
 
-        // jogando
+        // Jogando
 
         String status = "jogando";     // criar um enum para isso
 
@@ -42,47 +40,40 @@ public class batalhaNaval {
 
                 Scanner lerPosicoes = new Scanner(System.in);
 
-                System.out.print("\nDigite a linha onde deseja bombardear: ");
+                System.out.print("\nDigite a LINHA onde deseja bombardear: ");
                 char posicaoLinha = lerPosicoes.next().charAt(0);
 
-
-                System.out.print("Digite a coluna onde deseja bombardear: ");
+                System.out.print("Digite a COLUNA onde deseja bombardear: ");
                 char posicaoColuna = lerPosicoes.next().toUpperCase().charAt(0);
 
-                for (int i = 0; i< tabuleiroComputador.length;i++){
-                    if(tabuleiroComputador[i][1] == posicaoLinha){
-                        for (int j = 0; j< tabuleiroComputador[i].length;j++){
-                            if(tabuleiroComputador[1][j] == posicaoColuna){
-                                if (tabuleiroComputador[i][j]=='N'){
+                for (int i = 0; i < tabuleiroComputador.length; i++){
+                    if (tabuleiroComputador[i][1] == posicaoLinha){
+                        for (int j = 0; j < tabuleiroComputador[i].length; j++){
+                            if (tabuleiroComputador[1][j] == posicaoColuna){
+                                if (tabuleiroComputador[i][j] == 'N') {
                                     tabuleiroComputador[i][j] = '*';
                                     numeroNaviosComputador--;
                                     rodada++;
-                                }else if(tabuleiroComputador[i][j]==' '){
+                                } else if (tabuleiroComputador[i][j] == ' '){
                                     tabuleiroComputador[i][j] = '-';
                                     rodada++;
-                                }else{
-                                    System.out.printf("você ja bombardeou esse local, escolha outro");
+                                } else {
+                                    System.out.printf("Você ja bombardeou esse local, escolha outro");
                                 }
                             }
                         }
                     }
                 }
 
-                System.out.printf("\nTabuleiro Computador");
-                for(int i = 0; i< tabuleiroComputador.length;i++){
-                    System.out.printf("\n");
-                    for (int j = 0; j< tabuleiroComputador[i].length;j++){
-                        System.out.print(tabuleiroComputador[i][j]);
-                    }
-                }
+                exibirTabuleiro(tabuleiroComputador, "Computador");
 
                 if (numeroNaviosComputador == 0){                  //finalizando o jogo
-                    System.out.printf("Parabens, você venceu!!!");
+                    System.out.printf("Parabéns, você venceu!!!");
                     status = "jogo finalizado";
                 }
 
-
             }
+
             if(rodada%2 != 0){   // rodada computador
                 int numeroLinha = (int) (Math.random()*4);
                 int numeroColuna = (int) (Math.random()*4);
@@ -126,11 +117,11 @@ public class batalhaNaval {
             char posicaoLinha = posicaoNavios[numeroNavios][0];
             char posicaoColuna = posicaoNavios[numeroNavios][1];
 
-            for (int i = 0; i< tabuleiro.length;i++){
+            for (int i = 0; i < tabuleiro.length; i++){
                 if(tabuleiro[i][1] == posicaoLinha){
-                    for (int j = 0; j< tabuleiro[i].length;j++){
+                    for (int j = 0; j < tabuleiro[i].length; j++){
                         if(tabuleiro[1][j] == posicaoColuna){
-                            if (tabuleiro[i][j]==' '){
+                            if (tabuleiro[i][j] ==' '){
                                 tabuleiro[i][j] = 'N';
                                 numeroNavios++;
                             }
