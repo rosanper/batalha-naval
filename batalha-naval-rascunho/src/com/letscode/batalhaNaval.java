@@ -30,15 +30,12 @@ public class batalhaNaval {
         Scanner lerPosicoes = new Scanner(System.in);
         int numeroNavios = 0;
 
-        while(numeroNavios <3){
+        char[][] naviosJogador = lerPosicoesNavios();
 
+        while(numeroNavios < naviosJogador.length){
 
-            System.out.print("\nDigite a linha onde deseja colocar o navio: ");
-            char posicaoLinha = lerPosicoes.next().charAt(0);
-
-
-            System.out.print("Digite a coluna onde deseja colocar o navio: ");
-            char posicaoColuna = lerPosicoes.next().toUpperCase().charAt(0);
+            char posicaoLinha = naviosJogador[numeroNavios][0];
+            char posicaoColuna = naviosJogador[numeroNavios][1];
 
             for (int i = 0; i< tabuleiroJogador.length;i++){
                 if(tabuleiroJogador[i][1] == posicaoLinha){
@@ -191,6 +188,22 @@ public class batalhaNaval {
 
             }
         }
+    }
+
+    private static char[][] lerPosicoesNavios() {
+        char[][] naviosJogador = new char[3][2];
+
+        Scanner lerPosicoes = new Scanner(System.in);
+
+        for (int i = 0; i < naviosJogador.length; i++) {
+            System.out.print("\nDigite a LINHA onde deseja colocar o navio: ");
+            naviosJogador[i][0] = lerPosicoes.next().charAt(0);
+
+            System.out.print("Digite a COLUNA onde deseja colocar o navio: ");
+            naviosJogador[i][1] = lerPosicoes.next().toUpperCase().charAt(0);
+        }
+
+        return naviosJogador;
     }
 
     private static char[][] criarTabuleiro(char[] letras, char[] numeros) {
