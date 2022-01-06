@@ -46,32 +46,25 @@ public class batalhaNaval {
                 System.out.print("Digite a COLUNA onde deseja bombardear: ");
                 char posicaoColuna = lerPosicoes.next().toUpperCase().charAt(0);
 
-                for (int i = 0; i < tabuleiroComputador.length; i++){
-                    if (tabuleiroComputador[i][1] == posicaoLinha){
-                        for (int j = 0; j < tabuleiroComputador[i].length; j++){
-                            if (tabuleiroComputador[1][j] == posicaoColuna){
-                                if (tabuleiroComputador[i][j] == 'N') {
-                                    tabuleiroComputador[i][j] = '*';
-                                    numeroNaviosComputador--;
-                                    rodada++;
-                                } else if (tabuleiroComputador[i][j] == ' '){
-                                    tabuleiroComputador[i][j] = '-';
-                                    rodada++;
-                                } else {
-                                    System.out.printf("Você ja bombardeou esse local, escolha outro");
-                                }
-                            }
-                        }
-                    }
+                int resultadoBombardeioJogador = bombardear(tabuleiroComputador,"Jogador",
+                        posicaoLinha,posicaoColuna);
+                switch (resultadoBombardeioJogador){
+                    case 1:
+                        numeroNaviosComputador--;
+                        rodada++;
+                        break;
+                    case 2:
+                        rodada++;
+                        break;
+                    case 3:
+                        System.out.printf("Você ja bombardeou esse local, escolha outro");
+                        break;
                 }
 
                 exibirTabuleiro(tabuleiroComputador, "Computador");
 
-                if (numeroNaviosComputador == 0){                  //finalizando o jogo
-                    System.out.printf("Parabéns, você venceu!!!");
-                    status = "jogo finalizado";
-                }
-
+                String resultadoRodada = finalizarJogo(numeroNaviosComputador,"Jogador",status);
+                status = resultadoRodada;
             }
 
             if(rodada%2 != 0){   // rodada computador
@@ -81,33 +74,92 @@ public class batalhaNaval {
                 char posicaoLinha = numeros[numeroLinha];
                 char posicaoColuna = letras[numeroColuna];
 
-                for (int i = 0; i< tabuleiroJogador.length;i++){
-                    if(tabuleiroJogador[i][1] == posicaoLinha){
-                        for (int j = 0; j< tabuleiroJogador[i].length;j++){
-                            if(tabuleiroJogador[1][j] == posicaoColuna){
-                                if (tabuleiroJogador[i][j]=='N'){
-                                    tabuleiroJogador[i][j] = '*';
-                                    numeroNaviosJogador--;
-                                    rodada++;
-                                }else if(tabuleiroJogador[i][j]==' '){
-                                    tabuleiroJogador[i][j] = '-';
-                                    rodada++;
-                                }
-                            }
-                        }
-                    }
+                int resultadoBombardeioComputador = bombardear(tabuleiroJogador,"Computador",
+                        posicaoLinha,posicaoColuna);
+                switch (resultadoBombardeioComputador){
+                    case 1:
+                        numeroNaviosJogador--;
+                        rodada++;
+                        break;
+                    case 2:
+                        rodada++;
+                        break;
+                    case 3:
+                        System.out.printf("Você ja bombardeou esse local, escolha outro");
+                        break;
                 }
 
                 exibirTabuleiro(tabuleiroJogador, "Jogador");
 
-                if (numeroNaviosJogador == 0){                            //finalizando o jogo
-                    System.out.printf("Visshh, você foi derrotado!");
-                    status = "jogo finalizado";
-                }
-
+                String resultadoRodada = finalizarJogo(numeroNaviosJogador,"Computador",status);
+                status = resultadoRodada;
             }
         }
+
     }
+
+    // funçoes criadas
+
+    private static boolean hasCharacter(char[] array, char charactere){   //utilizar para validar as entradas (ainda nao utilizei)
+        boolean result = false;
+        for(int i=0;i<array.length;i++){
+            if(array[i] == charactere){
+                result = true;
+                return result;
+            }
+        }
+        return result;
+    }
+
+    private static int gerarNumeroAleatório(char[] array){      // caso queira usar para subsituir as partes onde tem que gerar um numero aleatorio
+        int num = (int) (Math.random()*array.length);
+        return num;
+    }
+
+    private static int bombardear(char[][] tabuleiro, String player,
+                                 char posicaoLinha, char posicaoColuna){
+        int result = 0;
+        for (int i = 0; i < tabuleiro.length; i++){
+            if (tabuleiro[i][1] == posicaoLinha){
+                for (int j = 0; j < tabuleiro[i].length; j++){
+                    if (tabuleiro[1][j] == posicaoColuna){
+                        if (tabuleiro[i][j] == 'N') {
+                            tabuleiro[i][j] = '*';
+                            result = 1;
+
+                        } else if (tabuleiro[i][j] == ' '){
+                            tabuleiro[i][j] = '-';
+                            result = 2;
+
+                        } else {
+                            if(player == "Jogador"){
+                                result = 3;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    private static String finalizarJogo(int numeroNavios, String player, String status){
+        String resultado=status;
+
+        if(numeroNavios == 0 && player == "Jogador"){
+            System.out.printf("Parabéns, você venceu!!!");
+            resultado = "jogo finalizado";
+        }
+
+        if(numeroNavios == 0 && player == "Computador"){
+            System.out.printf("Visshh, você foi derrotado!");
+            resultado = "jogo finalizado";
+        }
+
+        return resultado;
+    }
+
+    // fim das funcoes criadas
 
     private static int posicionarNavios(char[][] tabuleiro, char[][] posicaoNavios) {
         int numeroNavios = 0;
