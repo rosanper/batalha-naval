@@ -14,6 +14,7 @@ public class GameAction {
         Scanner readCoordinates = new Scanner(System.in);
 
         do {
+            // usuario adiciona linha para navio - com validaçao
             do {
                 System.out.printf("\nDigite a LINHA onde deseja colocar o navio #%d: ", positionedShips + 1);
                 shipsCoordinates[positionedShips][0] = readCoordinates.next().toUpperCase().charAt(0);
@@ -23,6 +24,7 @@ public class GameAction {
                 }
             } while (Arrays.binarySearch(lineIdentifiers, shipsCoordinates[positionedShips][0]) < 0);
 
+            // usuario adiciona coluna para navio - com validaçao
             do {
                 System.out.printf("Digite a COLUNA onde deseja colocar o navio #%d: ", positionedShips + 1);
                 shipsCoordinates[positionedShips][1] = readCoordinates.next().charAt(0);
@@ -32,22 +34,22 @@ public class GameAction {
                 }
             } while (Arrays.binarySearch(columnIdentifiers, shipsCoordinates[positionedShips][1]) < 0);
 
-            positionedShips++;
-//            if (positionedShips == 0) {
-//                positionedShips++;
-//            } else {
-//                // Fazer validacao se ja existe navio na posicao escolhida
-//                for (int i = 0; i < positionedShips; i++) {
-//                    if (shipsCoordinates[positionedShips][0] == shipsCoordinates[i][0] && shipsCoordinates[positionedShips][1] == shipsCoordinates[i][1]) {
-//                        System.out.println("Já existe um navio nessas coordenadas, favor escolher novamente.");
-//                        break;
-//                    }
-//                    if (i == positionedShips - 1) {
-//                        positionedShips++;
-//                    }
-//                }
-//
-//            }
+            // validaçao se já existe navio nas coordenadas escolhidas
+            if (positionedShips == 0) {
+                positionedShips++;
+            } else {
+                boolean shipWasPositioned = false;
+
+                for (int i = 0; i < positionedShips; i++) {
+                    if (shipsCoordinates[positionedShips][0] == shipsCoordinates[i][0] && shipsCoordinates[positionedShips][1] == shipsCoordinates[i][1]) {
+                        System.out.println("Já existe um navio nessas coordenadas, favor escolher novamente.");
+                        break;
+                    }
+                    shipWasPositioned = true;
+                }
+
+                if (shipWasPositioned) positionedShips++;
+            }
         } while (positionedShips < batalhaNaval.AMOUNT_OF_SHIPS);
 
         return shipsCoordinates;
