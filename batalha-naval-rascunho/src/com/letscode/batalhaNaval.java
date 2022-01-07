@@ -1,5 +1,7 @@
 package com.letscode;
 
+import com.letscode.service.GameBoard;
+
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -10,8 +12,8 @@ public class batalhaNaval {
         char[] lineIdentifiers = {'A','B','C','D','E','F','G','H','I','J'};
         char[] columnIdentifiers = {'0','1','2','3','4','5','6','7','8','9'};
 
-        char[][] personsBoard = createGameBoard(lineIdentifiers, columnIdentifiers);
-        char[][] machinesBoard = createGameBoard(lineIdentifiers, columnIdentifiers);
+        char[][] personsBoard = GameBoard.createGameBoard(lineIdentifiers, columnIdentifiers);
+        char[][] machinesBoard = GameBoard.createGameBoard(lineIdentifiers, columnIdentifiers);
 
         exibirTabuleiro(personsBoard, "Jogador");
 
@@ -230,35 +232,4 @@ public class batalhaNaval {
         // Fazer validacao se ja existe navio na posicao escolhida
     }
 
-    private static char[][] createGameBoard(char[] lineIdentifiers, char[] columnIdentifiers) {
-        final int BOARD_SIZE = 11; // tabuleiro completo = 23
-        int columnIdentifierIndex = 0;
-        int lineIdentifierIndex = 0;
-        char[][] gameBoard = new char[BOARD_SIZE][BOARD_SIZE];
-
-        for(char[] line : gameBoard) {
-            if (Arrays.asList(gameBoard).indexOf(line) % 2 == 0) {  // preenchimento das divisorias
-                Arrays.fill(line,'-');
-            } else if (Arrays.asList(gameBoard).indexOf(line) == 1) {   // preenchimento da linha de cabeçalho
-                for (int i = 0; i < line.length; i++) {
-                    if (i == 1) {
-                        line[i] = ' ';
-                    } else {
-                        line[i] = (i % 2 == 0) ? '|' : columnIdentifiers[columnIdentifierIndex++];
-                    }
-                }
-            } else {    // preenchimento das linhas do campo de jogo
-                for (int i = 0; i < line.length; i++) {
-                    if (i == 1) {
-                        line[i] = lineIdentifiers[lineIdentifierIndex];
-                        lineIdentifierIndex++;
-                    } else {
-                        line[i] = i % 2 == 0 ? '|' : ' ';
-                    }
-                }
-            }
-        }
-
-        return gameBoard;
-    }
 }
