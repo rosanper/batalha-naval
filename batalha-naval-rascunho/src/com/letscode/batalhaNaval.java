@@ -7,27 +7,27 @@ public class batalhaNaval {
 
     public static void main(String[] args) {
 
-        char[] letras = {'A','B','C','D','E','F'};
-        char[] numeros = {'1','2','3','4','5','6'};
+        char[] lineIdentifiers = {'A','B','C','D','E','F','G','H','I','J'};
+        char[] columnIdentifiers = {'0','1','2','3','4','5','6','7','8','9'};
 
-        char[][] tabuleiroJogador = criarTabuleiro(letras, numeros);
-        char[][] tabuleiroComputador = criarTabuleiro(letras, numeros);
+        char[][] personsBoard = createGameBoard(lineIdentifiers, columnIdentifiers);
+        char[][] machinesBoard = createGameBoard(lineIdentifiers, columnIdentifiers);
 
-        exibirTabuleiro(tabuleiroJogador, "Jogador");
+        exibirTabuleiro(personsBoard, "Jogador");
 
         // Posicionando navios do jogador
 
         char[][] naviosJogador = lerPosicoesNavios();
-        int numeroNaviosJogador = posicionarNavios(tabuleiroJogador, naviosJogador);
+        int numeroNaviosJogador = posicionarNavios(personsBoard, naviosJogador);
 
-        exibirTabuleiro(tabuleiroJogador, "Jogador");
+        exibirTabuleiro(personsBoard, "Jogador");
 
         // Posicionando navios do computador
 
-        char[][] naviosComputador = criarPosicoesAleatorias(letras, numeros);
-        int numeroNaviosComputador = posicionarNavios(tabuleiroComputador, naviosComputador);
+        char[][] naviosComputador = criarPosicoesAleatorias(lineIdentifiers, columnIdentifiers);
+        int numeroNaviosComputador = posicionarNavios(machinesBoard, naviosComputador);
 
-        exibirTabuleiro(tabuleiroComputador, "Computador");
+        exibirTabuleiro(machinesBoard, "Computador");
 
         // Jogando
 
@@ -46,7 +46,7 @@ public class batalhaNaval {
                 System.out.print("Digite a COLUNA onde deseja bombardear: ");
                 char posicaoColuna = lerPosicoes.next().toUpperCase().charAt(0);
 
-                int resultadoBombardeioJogador = bombardear(tabuleiroComputador,"Jogador",
+                int resultadoBombardeioJogador = bombardear(machinesBoard,"Jogador",
                         posicaoLinha,posicaoColuna);
                 switch (resultadoBombardeioJogador){
                     case 1:
@@ -61,7 +61,7 @@ public class batalhaNaval {
                         break;
                 }
 
-                exibirTabuleiro(tabuleiroComputador, "Computador");
+                exibirTabuleiro(machinesBoard, "Computador");
 
                 String resultadoRodada = finalizarJogo(numeroNaviosComputador,"Jogador",status);
                 status = resultadoRodada;
@@ -71,10 +71,10 @@ public class batalhaNaval {
                 int numeroLinha = (int) (Math.random()*4);
                 int numeroColuna = (int) (Math.random()*4);
 
-                char posicaoLinha = numeros[numeroLinha];
-                char posicaoColuna = letras[numeroColuna];
+                char posicaoLinha = columnIdentifiers[numeroLinha];
+                char posicaoColuna = lineIdentifiers[numeroColuna];
 
-                int resultadoBombardeioComputador = bombardear(tabuleiroJogador,"Computador",
+                int resultadoBombardeioComputador = bombardear(personsBoard,"Computador",
                         posicaoLinha,posicaoColuna);
                 switch (resultadoBombardeioComputador){
                     case 1:
@@ -89,7 +89,7 @@ public class batalhaNaval {
                         break;
                 }
 
-                exibirTabuleiro(tabuleiroJogador, "Jogador");
+                exibirTabuleiro(personsBoard, "Jogador");
 
                 String resultadoRodada = finalizarJogo(numeroNaviosJogador,"Computador",status);
                 status = resultadoRodada;
@@ -196,17 +196,17 @@ public class batalhaNaval {
         }
     }
 
-    private static char[][] criarPosicoesAleatorias(char[] letras, char[] numeros) {
+    private static char[][] criarPosicoesAleatorias(char[] lineIdentifiers, char[] columnIdentifiers) {
         char[][] naviosComputador = new char[3][2];
         int numeroLinha;
         int numeroColuna;
 
         for (int i = 0; i < naviosComputador.length; i++) {
             numeroLinha = (int) (Math.random()*4);
-            naviosComputador[i][0] = numeros[numeroLinha];
+            naviosComputador[i][0] = columnIdentifiers[numeroLinha];
 
             numeroColuna = (int) (Math.random()*4);
-            naviosComputador[i][1] = letras[numeroColuna];
+            naviosComputador[i][1] = lineIdentifiers[numeroColuna];
         }
 
         return naviosComputador;
@@ -230,36 +230,35 @@ public class batalhaNaval {
         // Fazer validacao se ja existe navio na posicao escolhida
     }
 
-    private static char[][] criarTabuleiro(char[] letras, char[] numeros) {
-        int indiceArray = 0;
-        char[][] tabuleiro = new char[10][10];
+    private static char[][] createGameBoard(char[] lineIdentifiers, char[] columnIdentifiers) {
+        final int BOARD_SIZE = 11; // tabuleiro completo = 23
+        int columnIdentifierIndex = 0;
+        int lineIdentifierIndex = 0;
+        char[][] gameBoard = new char[BOARD_SIZE][BOARD_SIZE];
 
-        for(char[] linha : tabuleiro){
-            Arrays.fill(linha,' ');
-        }
-
-        for(int i = 0; i < tabuleiro.length; i++){
-            for (int j = 0; j < tabuleiro[i].length; j = j + 2){
-                tabuleiro[i][j] = '|';
+        for(char[] line : gameBoard) {
+            if (Arrays.asList(gameBoard).indexOf(line) % 2 == 0) {  // preenchimento das divisorias
+                Arrays.fill(line,'-');
+            } else if (Arrays.asList(gameBoard).indexOf(line) == 1) {   // preenchimento da linha de cabeçalho
+                for (int i = 0; i < line.length; i++) {
+                    if (i == 1) {
+                        line[i] = ' ';
+                    } else {
+                        line[i] = (i % 2 == 0) ? '|' : columnIdentifiers[columnIdentifierIndex++];
+                    }
+                }
+            } else {    // preenchimento das linhas do campo de jogo
+                for (int i = 0; i < line.length; i++) {
+                    if (i == 1) {
+                        line[i] = lineIdentifiers[lineIdentifierIndex];
+                        lineIdentifierIndex++;
+                    } else {
+                        line[i] = i % 2 == 0 ? '|' : ' ';
+                    }
+                }
             }
         }
 
-        for(int i = 0; i < tabuleiro.length; i = i+2){
-            for (int j = 0; j < tabuleiro[i].length; j++){
-                tabuleiro[i][j] = '-';
-            }
-        }
-
-        for (int i = 3; i < tabuleiro.length; i = i + 2){
-            tabuleiro[i][1] = numeros[indiceArray];
-            indiceArray++;
-        }
-
-        indiceArray = 0;
-        for (int j = 3; j< tabuleiro[1].length;j = j + 2){
-            tabuleiro[1][j] = letras[indiceArray];
-            indiceArray++;
-        }
-        return tabuleiro;
+        return gameBoard;
     }
 }
