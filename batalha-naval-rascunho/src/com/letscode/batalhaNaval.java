@@ -2,7 +2,6 @@ package com.letscode;
 
 import com.letscode.service.GameBoard;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class batalhaNaval {
@@ -12,24 +11,24 @@ public class batalhaNaval {
         char[] lineIdentifiers = {'A','B','C','D','E','F','G','H','I','J'};
         char[] columnIdentifiers = {'0','1','2','3','4','5','6','7','8','9'};
 
-        char[][] personsBoard = GameBoard.createGameBoard(lineIdentifiers, columnIdentifiers);
-        char[][] machinesBoard = GameBoard.createGameBoard(lineIdentifiers, columnIdentifiers);
+        char[][] personBoard = GameBoard.createGameBoard(lineIdentifiers, columnIdentifiers);
+        char[][] machineBoard = GameBoard.createGameBoard(lineIdentifiers, columnIdentifiers);
 
-        exibirTabuleiro(personsBoard, "Jogador");
+        GameBoard.showBoard(personBoard, "Jogador");
 
         // Posicionando navios do jogador
 
         char[][] naviosJogador = lerPosicoesNavios();
-        int numeroNaviosJogador = posicionarNavios(personsBoard, naviosJogador);
+        int numeroNaviosJogador = posicionarNavios(personBoard, naviosJogador);
 
-        exibirTabuleiro(personsBoard, "Jogador");
+        GameBoard.showBoard(personBoard, "Jogador");
 
         // Posicionando navios do computador
 
         char[][] naviosComputador = criarPosicoesAleatorias(lineIdentifiers, columnIdentifiers);
-        int numeroNaviosComputador = posicionarNavios(machinesBoard, naviosComputador);
+        int numeroNaviosComputador = posicionarNavios(machineBoard, naviosComputador);
 
-        exibirTabuleiro(machinesBoard, "Computador");
+        GameBoard.showBoard(machineBoard, "Computador");
 
         // Jogando
 
@@ -48,7 +47,7 @@ public class batalhaNaval {
                 System.out.print("Digite a COLUNA onde deseja bombardear: ");
                 char posicaoColuna = lerPosicoes.next().toUpperCase().charAt(0);
 
-                int resultadoBombardeioJogador = bombardear(machinesBoard,"Jogador",
+                int resultadoBombardeioJogador = bombardear(machineBoard,"Jogador",
                         posicaoLinha,posicaoColuna);
                 switch (resultadoBombardeioJogador){
                     case 1:
@@ -63,7 +62,7 @@ public class batalhaNaval {
                         break;
                 }
 
-                exibirTabuleiro(machinesBoard, "Computador");
+                GameBoard.showBoard(machineBoard, "Computador");
 
                 String resultadoRodada = finalizarJogo(numeroNaviosComputador,"Jogador",status);
                 status = resultadoRodada;
@@ -76,7 +75,7 @@ public class batalhaNaval {
                 char posicaoLinha = columnIdentifiers[numeroLinha];
                 char posicaoColuna = lineIdentifiers[numeroColuna];
 
-                int resultadoBombardeioComputador = bombardear(personsBoard,"Computador",
+                int resultadoBombardeioComputador = bombardear(personBoard,"Computador",
                         posicaoLinha,posicaoColuna);
                 switch (resultadoBombardeioComputador){
                     case 1:
@@ -91,7 +90,7 @@ public class batalhaNaval {
                         break;
                 }
 
-                exibirTabuleiro(personsBoard, "Jogador");
+                GameBoard.showBoard(personBoard, "Jogador");
 
                 String resultadoRodada = finalizarJogo(numeroNaviosJogador,"Computador",status);
                 status = resultadoRodada;
@@ -186,16 +185,6 @@ public class batalhaNaval {
         }
 
         return numeroNavios;
-    }
-
-    private static void exibirTabuleiro(char[][] tabuleiro, String player) {
-        System.out.printf("\nTabuleiro %s", player);
-        for(int i = 0; i < tabuleiro.length; i++){
-            System.out.printf("\n");
-            for (int j = 0; j < tabuleiro[i].length; j++){
-                System.out.print(tabuleiro[i][j]);
-            }
-        }
     }
 
     private static char[][] criarPosicoesAleatorias(char[] lineIdentifiers, char[] columnIdentifiers) {

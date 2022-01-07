@@ -32,8 +32,18 @@ public class GameBoard {
                 }
             }
         }
-
         return gameBoard;
+    }
+
+    public static void showBoard(char[][] gameBoard, String player) {
+        System.out.printf("\nTabuleiro %s", player);
+
+        for(int i = 0; i < gameBoard.length; i++){
+            System.out.printf("\n");
+            for (int j = 0; j < gameBoard[i].length; j++){
+                System.out.print(gameBoard[i][j]);
+            }
+        }
     }
 
 }
