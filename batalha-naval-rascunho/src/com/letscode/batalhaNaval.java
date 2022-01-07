@@ -7,6 +7,9 @@ import java.util.Scanner;
 
 public class batalhaNaval {
 
+    public static final int BOARD_SIZE = 11;    // tabuleiro completo = 23
+    public static final int AMOUNT_OF_SHIPS = 3;    // quantidade desejada = 10
+
     public static void main(String[] args) {
 
         char[] lineIdentifiers = {'A','B','C','D','E','F','G','H','I','J'};
@@ -19,7 +22,7 @@ public class batalhaNaval {
 
         // Posicionando navios do jogador
 
-        char[][] personShips = GameAction.readShipsCoordinates();
+        char[][] personShips = GameAction.readShipsCoordinates(lineIdentifiers, columnIdentifiers);
 
         int personAmountOfWholeShips = GameAction.positionShips(personBoard, personShips);
 

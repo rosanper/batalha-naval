@@ -1,22 +1,36 @@
 package com.letscode.service;
 
+import com.letscode.batalhaNaval;
+
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class GameAction {
 
-    public static char[][] readShipsCoordinates() {
-        final int AMOUNT_OF_SHIPS = 3;
+    public static char[][] readShipsCoordinates(char[] lineIdentifiers, char[] columnIdentifiers) {
         int positionedShips = 0;
-        char[][] shipsCoordinates = new char[AMOUNT_OF_SHIPS][2];
+        char[][] shipsCoordinates = new char[batalhaNaval.AMOUNT_OF_SHIPS][2];
 
         Scanner readCoordinates = new Scanner(System.in);
 
         do {
-            System.out.printf("\nDigite a LINHA onde deseja colocar o navio #%d: ", positionedShips + 1);
-            shipsCoordinates[positionedShips][0] = readCoordinates.next().charAt(0);
+            do {
+                System.out.printf("\nDigite a LINHA onde deseja colocar o navio #%d: ", positionedShips + 1);
+                shipsCoordinates[positionedShips][0] = readCoordinates.next().toUpperCase().charAt(0);
 
-            System.out.printf("Digite a COLUNA onde deseja colocar o navio #%d: ", positionedShips + 1);
-            shipsCoordinates[positionedShips][1] = readCoordinates.next().toUpperCase().charAt(0);
+                if (Arrays.binarySearch(lineIdentifiers, shipsCoordinates[positionedShips][0]) < 0) {
+                    System.out.println("** ATENÇÃO: Esta linha não existe, tente novamente **");
+                }
+            } while (Arrays.binarySearch(lineIdentifiers, shipsCoordinates[positionedShips][0]) < 0);
+
+            do {
+                System.out.printf("Digite a COLUNA onde deseja colocar o navio #%d: ", positionedShips + 1);
+                shipsCoordinates[positionedShips][1] = readCoordinates.next().charAt(0);
+
+                if (Arrays.binarySearch(columnIdentifiers, shipsCoordinates[positionedShips][1]) < 0) {
+                    System.out.println("** ATENÇÃO: Esta coluna não existe, tente novamente **\n");
+                }
+            } while (Arrays.binarySearch(columnIdentifiers, shipsCoordinates[positionedShips][1]) < 0);
 
             positionedShips++;
 //            if (positionedShips == 0) {
@@ -34,7 +48,7 @@ public class GameAction {
 //                }
 //
 //            }
-        } while (positionedShips < AMOUNT_OF_SHIPS);
+        } while (positionedShips < batalhaNaval.AMOUNT_OF_SHIPS);
 
         return shipsCoordinates;
     }
@@ -43,8 +57,8 @@ public class GameAction {
         int amountOfPositionedShips = 0;
 
         for (char[] shipPosition : shipsCoordinates ) {
-            char columnCoordinate = shipPosition[0];
-            char lineCoordinate = shipPosition[1];
+            char lineCoordinate = shipPosition[0];
+            char columnCoordinate = shipPosition[1];
 
             for (int i = 3; i < gameBoard.length; i += 2) {
                 if(gameBoard[i][1] == lineCoordinate) {

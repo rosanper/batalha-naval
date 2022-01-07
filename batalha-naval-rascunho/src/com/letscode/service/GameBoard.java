@@ -1,14 +1,15 @@
 package com.letscode.service;
 
+import com.letscode.batalhaNaval;
+
 import java.util.Arrays;
 
 public class GameBoard {
 
     public static char[][] createGameBoard(char[] lineIdentifiers, char[] columnIdentifiers) {
-        final int BOARD_SIZE = 11; // tabuleiro completo = 23
         int columnIdentifierIndex = 0;
         int lineIdentifierIndex = 0;
-        char[][] gameBoard = new char[BOARD_SIZE][BOARD_SIZE];
+        char[][] gameBoard = new char[batalhaNaval.BOARD_SIZE][batalhaNaval.BOARD_SIZE];
 
         for(char[] line : gameBoard) {
             if (Arrays.asList(gameBoard).indexOf(line) % 2 == 0) {  // preenchimento das divisorias
