@@ -1,5 +1,6 @@
 package com.letscode;
 
+import com.letscode.service.GameAction;
 import com.letscode.service.GameBoard;
 
 import java.util.Scanner;
@@ -18,15 +19,16 @@ public class batalhaNaval {
 
         // Posicionando navios do jogador
 
-        char[][] naviosJogador = lerPosicoesNavios();
-        int numeroNaviosJogador = posicionarNavios(personBoard, naviosJogador);
+        char[][] personShips = GameAction.readShipsCoordinates();
+
+        int personAmountOfWholeShips = GameAction.positionShips(personBoard, personShips);
 
         GameBoard.showBoard(personBoard, "Jogador");
 
         // Posicionando navios do computador
 
         char[][] naviosComputador = criarPosicoesAleatorias(lineIdentifiers, columnIdentifiers);
-        int numeroNaviosComputador = posicionarNavios(machineBoard, naviosComputador);
+        int numeroNaviosComputador = GameAction.positionShips(machineBoard, naviosComputador);
 
         GameBoard.showBoard(machineBoard, "Computador");
 
@@ -79,7 +81,7 @@ public class batalhaNaval {
                         posicaoLinha,posicaoColuna);
                 switch (resultadoBombardeioComputador){
                     case 1:
-                        numeroNaviosJogador--;
+                        personAmountOfWholeShips--;
                         rodada++;
                         break;
                     case 2:
@@ -92,7 +94,7 @@ public class batalhaNaval {
 
                 GameBoard.showBoard(personBoard, "Jogador");
 
-                String resultadoRodada = finalizarJogo(numeroNaviosJogador,"Computador",status);
+                String resultadoRodada = finalizarJogo(personAmountOfWholeShips,"Computador",status);
                 status = resultadoRodada;
             }
         }
@@ -162,31 +164,6 @@ public class batalhaNaval {
 
     // fim das funcoes criadas
 
-    private static int posicionarNavios(char[][] tabuleiro, char[][] posicaoNavios) {
-        int numeroNavios = 0;
-
-        while(numeroNavios < posicaoNavios.length){
-
-            char posicaoLinha = posicaoNavios[numeroNavios][0];
-            char posicaoColuna = posicaoNavios[numeroNavios][1];
-
-            for (int i = 0; i < tabuleiro.length; i++){
-                if(tabuleiro[i][1] == posicaoLinha){
-                    for (int j = 0; j < tabuleiro[i].length; j++){
-                        if(tabuleiro[1][j] == posicaoColuna){
-                            if (tabuleiro[i][j] ==' '){
-                                tabuleiro[i][j] = 'N';
-                                numeroNavios++;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return numeroNavios;
-    }
-
     private static char[][] criarPosicoesAleatorias(char[] lineIdentifiers, char[] columnIdentifiers) {
         char[][] naviosComputador = new char[3][2];
         int numeroLinha;
@@ -201,24 +178,6 @@ public class batalhaNaval {
         }
 
         return naviosComputador;
-    }
-
-    private static char[][] lerPosicoesNavios() {
-        char[][] naviosJogador = new char[3][2];
-
-        Scanner lerPosicoes = new Scanner(System.in);
-
-        for (int i = 0; i < naviosJogador.length; i++) {
-            System.out.print("\nDigite a LINHA onde deseja colocar o navio: ");
-            naviosJogador[i][0] = lerPosicoes.next().charAt(0);
-
-            System.out.print("Digite a COLUNA onde deseja colocar o navio: ");
-            naviosJogador[i][1] = lerPosicoes.next().toUpperCase().charAt(0);
-        }
-
-        return naviosJogador;
-
-        // Fazer validacao se ja existe navio na posicao escolhida
     }
 
 }
