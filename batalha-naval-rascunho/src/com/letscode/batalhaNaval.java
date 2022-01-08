@@ -7,7 +7,8 @@ import java.util.Scanner;
 
 public class batalhaNaval {
 
-    public static final int BOARD_SIZE = 11;    // tabuleiro completo = 23
+    public static final int AMOUNT_OF_COORDINATES = 5;    // tabuleiro completo = 10
+    public static final int BOARD_SIZE = AMOUNT_OF_COORDINATES * 2 + 3;
     public static final int AMOUNT_OF_SHIPS = 3;    // quantidade desejada = 10
 
     public static void main(String[] args) {
@@ -30,8 +31,9 @@ public class batalhaNaval {
 
         // Posicionando navios do computador
 
-        char[][] naviosComputador = criarPosicoesAleatorias(lineIdentifiers, columnIdentifiers);
-        int numeroNaviosComputador = GameAction.positionShips(machineBoard, naviosComputador);
+        char[][] machineShips = GameAction.createRandomShipsCoordinates(lineIdentifiers, columnIdentifiers);
+
+        int machineAmountOfWholeShips = GameAction.positionShips(machineBoard, machineShips);
 
         GameBoard.showBoard(machineBoard, "Computador");
 
@@ -56,7 +58,7 @@ public class batalhaNaval {
                         posicaoLinha,posicaoColuna);
                 switch (resultadoBombardeioJogador){
                     case 1:
-                        numeroNaviosComputador--;
+                        machineAmountOfWholeShips--;
                         rodada++;
                         break;
                     case 2:
@@ -69,7 +71,7 @@ public class batalhaNaval {
 
                 GameBoard.showBoard(machineBoard, "Computador");
 
-                String resultadoRodada = finalizarJogo(numeroNaviosComputador,"Jogador",status);
+                String resultadoRodada = finalizarJogo(machineAmountOfWholeShips,"Jogador",status);
                 status = resultadoRodada;
             }
 
@@ -164,23 +166,4 @@ public class batalhaNaval {
 
         return resultado;
     }
-
-    // fim das funcoes criadas
-
-    private static char[][] criarPosicoesAleatorias(char[] lineIdentifiers, char[] columnIdentifiers) {
-        char[][] naviosComputador = new char[3][2];
-        int numeroLinha;
-        int numeroColuna;
-
-        for (int i = 0; i < naviosComputador.length; i++) {
-            numeroLinha = (int) (Math.random()*4);
-            naviosComputador[i][0] = columnIdentifiers[numeroLinha];
-
-            numeroColuna = (int) (Math.random()*4);
-            naviosComputador[i][1] = lineIdentifiers[numeroColuna];
-        }
-
-        return naviosComputador;
-    }
-
 }

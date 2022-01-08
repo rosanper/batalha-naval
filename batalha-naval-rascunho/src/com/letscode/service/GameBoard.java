@@ -45,6 +45,7 @@ public class GameBoard {
                 System.out.print(gameBoard[i][j]);
             }
         }
+        System.out.printf("\n");
     }
 
 }
