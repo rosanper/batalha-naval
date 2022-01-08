@@ -1,6 +1,6 @@
 package com.letscode.service;
 
-import com.letscode.batalhaNaval;
+import com.letscode.BattleshipGame;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -9,7 +9,7 @@ public class GameAction {
 
     public static char[][] readShipsCoordinates(char[] lineIdentifiers, char[] columnIdentifiers) {
         int createdShips = 0;
-        char[][] shipsCoordinates = new char[batalhaNaval.AMOUNT_OF_SHIPS][2];
+        char[][] shipsCoordinates = new char[BattleshipGame.AMOUNT_OF_SHIPS][2];
 
         Scanner readCoordinates = new Scanner(System.in);
 
@@ -36,7 +36,7 @@ public class GameAction {
 
             createdShips = validateCreatedShips(createdShips, shipsCoordinates);
 
-        } while (createdShips < batalhaNaval.AMOUNT_OF_SHIPS);
+        } while (createdShips < BattleshipGame.AMOUNT_OF_SHIPS);
 
         return shipsCoordinates;
     }
@@ -45,20 +45,20 @@ public class GameAction {
         int createdShips = 0;
         int lineCoordinate;
         int columnCoordinate;
-        char[][] randomShipsCoordinates = new char[batalhaNaval.AMOUNT_OF_SHIPS][2];
+        char[][] randomShipsCoordinates = new char[BattleshipGame.AMOUNT_OF_SHIPS][2];
 
         do {
             for (int i = 0; i < randomShipsCoordinates.length; i++) {
-                lineCoordinate = (int) (Math.random() * batalhaNaval.AMOUNT_OF_BOARD_COORDINATES);
+                lineCoordinate = (int) (Math.random() * BattleshipGame.AMOUNT_OF_BOARD_COORDINATES);
                 randomShipsCoordinates[i][0] = lineIdentifiers[lineCoordinate];
 
-                columnCoordinate = (int) (Math.random() * batalhaNaval.AMOUNT_OF_BOARD_COORDINATES);
+                columnCoordinate = (int) (Math.random() * BattleshipGame.AMOUNT_OF_BOARD_COORDINATES);
                 randomShipsCoordinates[i][1] = columnIdentifiers[columnCoordinate];
             }
 
             createdShips = validateCreatedShips(createdShips, randomShipsCoordinates);
 
-        } while (createdShips < batalhaNaval.AMOUNT_OF_SHIPS);
+        } while (createdShips < BattleshipGame.AMOUNT_OF_SHIPS);
 
         return randomShipsCoordinates;
     }
@@ -108,29 +108,5 @@ public class GameAction {
         }
         return bombingResult;
     }
-
-//    public static int positionShips(char[][] gameBoard, char[][] shipsCoordinates) {
-//        int amountOfPositionedShips = 0;
-//
-//        for (char[] shipPosition : shipsCoordinates ) {
-//            char lineCoordinate = shipPosition[0];
-//            char columnCoordinate = shipPosition[1];
-//
-//            for (int i = 3; i < gameBoard.length; i += 2) {
-//                if(gameBoard[i][1] == lineCoordinate) {
-//                    for (int j = 3; j < gameBoard[i].length; j += 2) {
-//                        if(gameBoard[1][j] == columnCoordinate) {
-//                            if (gameBoard[i][j] == ' ') {
-//                                gameBoard[i][j] = 'N';
-//                                amountOfPositionedShips++;
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//
-//        return amountOfPositionedShips;
-//    }
 
 }

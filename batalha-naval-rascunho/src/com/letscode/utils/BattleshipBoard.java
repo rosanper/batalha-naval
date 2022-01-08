@@ -1,24 +1,22 @@
-package utils;
+package com.letscode.utils;
 
-import com.letscode.batalhaNaval;
+import com.letscode.BattleshipGame;
 
 import java.util.Arrays;
 
 public class BattleshipBoard {
     private char[] lineIdentifiers;
     private char[] columnIdentifiers;
-//    private char[][] shipsCoordinates;
     public char[][] gameBoard;
 
     public BattleshipBoard() {
         this.lineIdentifiers = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
         this.columnIdentifiers = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-//        this.shipsCoordinates = shipsCoordinates;
         this.gameBoard = this.createGameBoard();
     }
 
     public char[][] createGameBoard() {
-        char[][] board = new char[batalhaNaval.BOARD_SIZE][batalhaNaval.BOARD_SIZE];
+        char[][] board = new char[BattleshipGame.BOARD_SIZE][BattleshipGame.BOARD_SIZE];
         int columnIdentifierIndex = 0;
         int lineIdentifierIndex = 0;
 

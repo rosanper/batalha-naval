@@ -1,12 +1,11 @@
 package com.letscode;
 
 import com.letscode.service.GameAction;
-import com.letscode.service.GameBoard;
-import utils.BattleshipBoard;
+import com.letscode.utils.BattleshipBoard;
 
 import java.util.Scanner;
 
-public class batalhaNaval {
+public class BattleshipGame {
 
     public static final int AMOUNT_OF_BOARD_COORDINATES = 5;    // tabuleiro completo = 10
     public static final int BOARD_SIZE = AMOUNT_OF_BOARD_COORDINATES * 2 + 3;
@@ -14,17 +13,13 @@ public class batalhaNaval {
 
     public static void main(String[] args) {
 
-        // Criação dos tabuleiros
-        char[] lineIdentifiers = {'A','B','C','D','E','F','G','H','I','J'};
-        char[] columnIdentifiers = {'0','1','2','3','4','5','6','7','8','9'};
+        char[] lineIdentifiers = {'A','B','C','D','E','F','G','H','I','J'}; // ver possibilidade de excluir
+        char[] columnIdentifiers = {'0','1','2','3','4','5','6','7','8','9'}; // ver possibilidade de excluir
 
-        char[][] personBoard = GameBoard.createGameBoard(lineIdentifiers, columnIdentifiers);
-        char[][] machineBoard = GameBoard.createGameBoard(lineIdentifiers, columnIdentifiers);
-        // novo
+        // Criação dos tabuleiros
         BattleshipBoard personPlayer = new BattleshipBoard();
         BattleshipBoard machinePlayer = new BattleshipBoard();
 
-//        GameBoard.showBoard(personBoard, "Jogador");
         personPlayer.showBoard("Humano");
 
         // Determinação das coordenadas dos navios
@@ -32,12 +27,6 @@ public class batalhaNaval {
         char[][] machineShips = GameAction.createRandomShipsCoordinates(lineIdentifiers, columnIdentifiers);
 
         // Posicionamento dos navios nos tabluleiros
-//        int personAmountOfWholeShips = GameAction.positionShips(personBoard, personShips);
-//        int machineAmountOfWholeShips = GameAction.positionShips(machineBoard, machineShips);
-
-//        GameBoard.showBoard(personBoard, "Jogador");
-//        GameBoard.showBoard(machineBoard, "Computador");
-        // novo
         personPlayer.positionShips(personShips);
         machinePlayer.positionShips(machineShips);
 
@@ -79,7 +68,6 @@ public class batalhaNaval {
                         break;
                 }
 
-//                GameBoard.showBoard(machineBoard, "Computador");
                 machinePlayer.showBoard("Máquina");
 
                 String roundResult = finalizarJogo(machineAmountOfWholeShips,"Jogador", status);
@@ -108,7 +96,6 @@ public class batalhaNaval {
                         break;
                 }
 
-//                GameBoard.showBoard(personBoard, "Jogador");
                 personPlayer.showBoard("Humano");
 
                 String roundResult = finalizarJogo(personAmountOfWholeShips,"Computador", status);
@@ -135,8 +122,6 @@ public class batalhaNaval {
         int num = (int) (Math.random()*array.length);
         return num;
     }
-
-
 
     private static String finalizarJogo(int numeroNavios, String player, String status){
         String resultado=status;
