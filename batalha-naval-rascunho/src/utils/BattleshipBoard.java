@@ -7,13 +7,13 @@ import java.util.Arrays;
 public class BattleshipBoard {
     private char[] lineIdentifiers;
     private char[] columnIdentifiers;
-    private char[][] shipsCoordinates;
+//    private char[][] shipsCoordinates;
     public char[][] gameBoard;
 
-    public BattleshipBoard(char[][] shipsCoordinates) {
+    public BattleshipBoard() {
         this.lineIdentifiers = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
         this.columnIdentifiers = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-        this.shipsCoordinates = shipsCoordinates;
+//        this.shipsCoordinates = shipsCoordinates;
         this.gameBoard = this.createGameBoard();
     }
 
@@ -44,25 +44,22 @@ public class BattleshipBoard {
                 }
             }
         }
-
-        positionShips(board);
-
         return board;
     }
 
-    private int positionShips(char[][] gameBoard) {
+    public int positionShips(char[][] shipsCoordinates) {
         int amountOfPositionedShips = 0;
 
-        for (char[] shipPosition : this.shipsCoordinates ) {
+        for (char[] shipPosition : shipsCoordinates ) {
             char lineCoordinate = shipPosition[0];
             char columnCoordinate = shipPosition[1];
 
-            for (int i = 3; i < gameBoard.length; i += 2) {
-                if(gameBoard[i][1] == lineCoordinate) {
-                    for (int j = 3; j < gameBoard[i].length; j += 2) {
-                        if(gameBoard[1][j] == columnCoordinate) {
-                            if (gameBoard[i][j] == ' ') {
-                                gameBoard[i][j] = 'N';
+            for (int i = 3; i < this.gameBoard.length; i += 2) {
+                if(this.gameBoard[i][1] == lineCoordinate) {
+                    for (int j = 3; j < this.gameBoard[i].length; j += 2) {
+                        if(this.gameBoard[1][j] == columnCoordinate) {
+                            if (this.gameBoard[i][j] == ' ') {
+                                this.gameBoard[i][j] = 'N';
                                 amountOfPositionedShips++;
                             }
                         }

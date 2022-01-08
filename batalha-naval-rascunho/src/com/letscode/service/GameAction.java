@@ -83,28 +83,28 @@ public class GameAction {
     }
 
 
-    public static int positionShips(char[][] gameBoard, char[][] shipsCoordinates) {
-        int amountOfPositionedShips = 0;
-
-        for (char[] shipPosition : shipsCoordinates ) {
-            char lineCoordinate = shipPosition[0];
-            char columnCoordinate = shipPosition[1];
-
-            for (int i = 3; i < gameBoard.length; i += 2) {
-                if(gameBoard[i][1] == lineCoordinate) {
-                    for (int j = 3; j < gameBoard[i].length; j += 2) {
-                        if(gameBoard[1][j] == columnCoordinate) {
-                            if (gameBoard[i][j] == ' ') {
-                                gameBoard[i][j] = 'N';
-                                amountOfPositionedShips++;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return amountOfPositionedShips;
-    }
+//    public static int positionShips(char[][] gameBoard, char[][] shipsCoordinates) {
+//        int amountOfPositionedShips = 0;
+//
+//        for (char[] shipPosition : shipsCoordinates ) {
+//            char lineCoordinate = shipPosition[0];
+//            char columnCoordinate = shipPosition[1];
+//
+//            for (int i = 3; i < gameBoard.length; i += 2) {
+//                if(gameBoard[i][1] == lineCoordinate) {
+//                    for (int j = 3; j < gameBoard[i].length; j += 2) {
+//                        if(gameBoard[1][j] == columnCoordinate) {
+//                            if (gameBoard[i][j] == ' ') {
+//                                gameBoard[i][j] = 'N';
+//                                amountOfPositionedShips++;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//
+//        return amountOfPositionedShips;
+//    }
 
 }

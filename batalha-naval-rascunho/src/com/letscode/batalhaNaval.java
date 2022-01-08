@@ -14,33 +14,38 @@ public class batalhaNaval {
 
     public static void main(String[] args) {
 
-
+        // Criação dos tabuleiros
         char[] lineIdentifiers = {'A','B','C','D','E','F','G','H','I','J'};
         char[] columnIdentifiers = {'0','1','2','3','4','5','6','7','8','9'};
 
-        // Criação dos tabuleiros
         char[][] personBoard = GameBoard.createGameBoard(lineIdentifiers, columnIdentifiers);
         char[][] machineBoard = GameBoard.createGameBoard(lineIdentifiers, columnIdentifiers);
+        // novo
+        BattleshipBoard personPlayer = new BattleshipBoard();
+        BattleshipBoard machinePlayer = new BattleshipBoard();
 
-        GameBoard.showBoard(personBoard, "Jogador");
+//        GameBoard.showBoard(personBoard, "Jogador");
+        personPlayer.showBoard("Humano");
 
         // Determinação das coordenadas dos navios
         char[][] personShips = GameAction.readShipsCoordinates(lineIdentifiers, columnIdentifiers);
         char[][] machineShips = GameAction.createRandomShipsCoordinates(lineIdentifiers, columnIdentifiers);
 
-        BattleshipBoard personPlayer = new BattleshipBoard(personShips);
-        BattleshipBoard machinePlayer = new BattleshipBoard(machineShips);
+        // Posicionamento dos navios nos tabluleiros
+//        int personAmountOfWholeShips = GameAction.positionShips(personBoard, personShips);
+//        int machineAmountOfWholeShips = GameAction.positionShips(machineBoard, machineShips);
+
+//        GameBoard.showBoard(personBoard, "Jogador");
+//        GameBoard.showBoard(machineBoard, "Computador");
+        // novo
+        personPlayer.positionShips(personShips);
+        machinePlayer.positionShips(machineShips);
 
         personPlayer.showBoard("Humano");
         machinePlayer.showBoard("Máquina");
 
-
-        // Posicionamento dos navios nos tabluleiros
-        int personAmountOfWholeShips = GameAction.positionShips(personBoard, personShips);
-        int machineAmountOfWholeShips = GameAction.positionShips(machineBoard, machineShips);
-
-        GameBoard.showBoard(personBoard, "Jogador");
-        GameBoard.showBoard(machineBoard, "Computador");
+        int personAmountOfWholeShips = AMOUNT_OF_SHIPS;
+        int machineAmountOfWholeShips = AMOUNT_OF_SHIPS;
 
         // Jogando
 
