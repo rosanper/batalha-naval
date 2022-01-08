@@ -2,6 +2,7 @@ package com.letscode;
 
 import com.letscode.service.GameAction;
 import com.letscode.service.GameBoard;
+import utils.BattleshipBoard;
 
 import java.util.Scanner;
 
@@ -12,6 +13,7 @@ public class batalhaNaval {
     public static final int AMOUNT_OF_SHIPS = 3;    // quantidade desejada = 10
 
     public static void main(String[] args) {
+
 
         char[] lineIdentifiers = {'A','B','C','D','E','F','G','H','I','J'};
         char[] columnIdentifiers = {'0','1','2','3','4','5','6','7','8','9'};
@@ -25,6 +27,13 @@ public class batalhaNaval {
         // Determinação das coordenadas dos navios
         char[][] personShips = GameAction.readShipsCoordinates(lineIdentifiers, columnIdentifiers);
         char[][] machineShips = GameAction.createRandomShipsCoordinates(lineIdentifiers, columnIdentifiers);
+
+        BattleshipBoard personPlayer = new BattleshipBoard(personShips);
+        BattleshipBoard machinePlayer = new BattleshipBoard(machineShips);
+
+        personPlayer.showBoard("Humano");
+        machinePlayer.showBoard("Máquina");
+
 
         // Posicionamento dos navios nos tabluleiros
         int personAmountOfWholeShips = GameAction.positionShips(personBoard, personShips);
