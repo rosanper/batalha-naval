@@ -49,10 +49,10 @@ public class GameAction {
 
         do {
             for (int i = 0; i < randomShipsCoordinates.length; i++) {
-                lineCoordinate = (int) (Math.random() * batalhaNaval.AMOUNT_OF_COORDINATES);
+                lineCoordinate = (int) (Math.random() * batalhaNaval.AMOUNT_OF_BOARD_COORDINATES);
                 randomShipsCoordinates[i][0] = lineIdentifiers[lineCoordinate];
 
-                columnCoordinate = (int) (Math.random() * batalhaNaval.AMOUNT_OF_COORDINATES);
+                columnCoordinate = (int) (Math.random() * batalhaNaval.AMOUNT_OF_BOARD_COORDINATES);
                 randomShipsCoordinates[i][1] = columnIdentifiers[columnCoordinate];
             }
 

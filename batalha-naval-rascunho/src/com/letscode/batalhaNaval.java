@@ -7,8 +7,8 @@ import java.util.Scanner;
 
 public class batalhaNaval {
 
-    public static final int AMOUNT_OF_COORDINATES = 5;    // tabuleiro completo = 10
-    public static final int BOARD_SIZE = AMOUNT_OF_COORDINATES * 2 + 3;
+    public static final int AMOUNT_OF_BOARD_COORDINATES = 5;    // tabuleiro completo = 10
+    public static final int BOARD_SIZE = AMOUNT_OF_BOARD_COORDINATES * 2 + 3;
     public static final int AMOUNT_OF_SHIPS = 3;    // quantidade desejada = 10
 
     public static void main(String[] args) {
@@ -16,25 +16,21 @@ public class batalhaNaval {
         char[] lineIdentifiers = {'A','B','C','D','E','F','G','H','I','J'};
         char[] columnIdentifiers = {'0','1','2','3','4','5','6','7','8','9'};
 
+        // Criação dos tabuleiros
         char[][] personBoard = GameBoard.createGameBoard(lineIdentifiers, columnIdentifiers);
         char[][] machineBoard = GameBoard.createGameBoard(lineIdentifiers, columnIdentifiers);
 
         GameBoard.showBoard(personBoard, "Jogador");
 
-        // Posicionando navios do jogador
-
+        // Determinação das coordenadas dos navios
         char[][] personShips = GameAction.readShipsCoordinates(lineIdentifiers, columnIdentifiers);
-
-        int personAmountOfWholeShips = GameAction.positionShips(personBoard, personShips);
-
-        GameBoard.showBoard(personBoard, "Jogador");
-
-        // Posicionando navios do computador
-
         char[][] machineShips = GameAction.createRandomShipsCoordinates(lineIdentifiers, columnIdentifiers);
 
+        // Posicionamento dos navios nos tabluleiros
+        int personAmountOfWholeShips = GameAction.positionShips(personBoard, personShips);
         int machineAmountOfWholeShips = GameAction.positionShips(machineBoard, machineShips);
 
+        GameBoard.showBoard(personBoard, "Jogador");
         GameBoard.showBoard(machineBoard, "Computador");
 
         // Jogando
