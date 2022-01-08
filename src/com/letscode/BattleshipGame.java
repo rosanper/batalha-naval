@@ -78,8 +78,8 @@ public class BattleshipGame {
                 int numeroLinha = (int) (Math.random()*4);
                 int numeroColuna = (int) (Math.random()*4);
 
-                char lineCoordinate = columnIdentifiers[numeroLinha];
-                char columnCoordinate = lineIdentifiers[numeroColuna];
+                char lineCoordinate = lineIdentifiers[numeroLinha];
+                char columnCoordinate = columnIdentifiers[numeroColuna];
 
                 String machineBombingResult = GameAction.bombOpponent(personPlayer.gameBoard,"Computador", lineCoordinate,columnCoordinate);
 
