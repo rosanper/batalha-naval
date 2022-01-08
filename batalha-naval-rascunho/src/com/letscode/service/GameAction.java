@@ -34,43 +34,52 @@ public class GameAction {
                 }
             } while (Arrays.binarySearch(columnIdentifiers, shipsCoordinates[createdShips][1]) < 0);
 
-            // validaçao se já existe navio nas coordenadas escolhidas
-            if (createdShips == 0) {
-                createdShips++;
-            } else {
-                boolean shipWasPositioned = false;
+            createdShips = validateCreatedShips(createdShips, shipsCoordinates);
 
-                for (int i = 0; i < createdShips; i++) {
-                    if (shipsCoordinates[createdShips][0] == shipsCoordinates[i][0] && shipsCoordinates[createdShips][1] == shipsCoordinates[i][1]) {
-                        System.out.println("Já existe um navio nessas coordenadas, favor escolher novamente.");
-                        break;
-                    }
-                    shipWasPositioned = true;
-                }
-
-                if (shipWasPositioned) createdShips++;
-            }
         } while (createdShips < batalhaNaval.AMOUNT_OF_SHIPS);
 
         return shipsCoordinates;
     }
 
     public static char[][] createRandomShipsCoordinates(char[] lineIdentifiers, char[] columnIdentifiers) {
-        char[][] randomShipsCoordinates = new char[batalhaNaval.AMOUNT_OF_SHIPS][2];
-
+        int createdShips = 0;
         int lineCoordinate;
         int columnCoordinate;
+        char[][] randomShipsCoordinates = new char[batalhaNaval.AMOUNT_OF_SHIPS][2];
 
-        for (int i = 0; i < randomShipsCoordinates.length; i++) {
-            lineCoordinate = (int) (Math.random() * batalhaNaval.AMOUNT_OF_COORDINATES);
-            randomShipsCoordinates[i][0] = lineIdentifiers[lineCoordinate];
+        do {
+            for (int i = 0; i < randomShipsCoordinates.length; i++) {
+                lineCoordinate = (int) (Math.random() * batalhaNaval.AMOUNT_OF_COORDINATES);
+                randomShipsCoordinates[i][0] = lineIdentifiers[lineCoordinate];
 
-            columnCoordinate = (int) (Math.random() * batalhaNaval.AMOUNT_OF_COORDINATES);
-            randomShipsCoordinates[i][1] = columnIdentifiers[columnCoordinate];
-        }
+                columnCoordinate = (int) (Math.random() * batalhaNaval.AMOUNT_OF_COORDINATES);
+                randomShipsCoordinates[i][1] = columnIdentifiers[columnCoordinate];
+            }
+
+            createdShips = validateCreatedShips(createdShips, randomShipsCoordinates);
+
+        } while (createdShips < batalhaNaval.AMOUNT_OF_SHIPS);
 
         return randomShipsCoordinates;
-        // criar validaçao para nao repetir posiçoes navios
+    }
+
+    private static int validateCreatedShips(int createdShips, char[][] randomShipsCoordinates) {
+        if (createdShips == 0) {
+            createdShips++;
+        } else {
+            boolean shipWasPositioned = false;
+
+            for (int i = 0; i < createdShips; i++) {
+                if (randomShipsCoordinates[createdShips][0] == randomShipsCoordinates[i][0] && randomShipsCoordinates[createdShips][1] == randomShipsCoordinates[i][1]) {
+                    System.out.println("Já existe um navio nessas coordenadas, favor escolher novamente.");
+                    break;
+                }
+                shipWasPositioned = true;
+            }
+
+            if (shipWasPositioned) createdShips++;
+        }
+        return createdShips;
     }
 
 
