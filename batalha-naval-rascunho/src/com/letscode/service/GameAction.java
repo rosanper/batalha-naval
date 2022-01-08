@@ -82,6 +82,32 @@ public class GameAction {
         return createdShips;
     }
 
+    public static String bombOpponent(char[][] gameBoard, String player, char lineCoordinate, char columnCoordinate) {
+        String bombingResult = "";
+
+        for (int i = 0; i < gameBoard.length; i++) {
+            if (gameBoard[i][1] == lineCoordinate) {
+                for (int j = 0; j < gameBoard[i].length; j++) {
+                    if (gameBoard[1][j] == columnCoordinate) {
+                        if (gameBoard[i][j] == 'N') {
+                            gameBoard[i][j] = '*';
+                            bombingResult = "accurate";
+
+                        } else if (gameBoard[i][j] == ' ') {
+                            gameBoard[i][j] = '-';
+                            bombingResult = "missed";
+
+                        } else {
+                            if(player == "Jogador") {
+                                bombingResult = "repeated";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return bombingResult;
+    }
 
 //    public static int positionShips(char[][] gameBoard, char[][] shipsCoordinates) {
 //        int amountOfPositionedShips = 0;

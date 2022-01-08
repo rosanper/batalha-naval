@@ -51,68 +51,70 @@ public class batalhaNaval {
 
         String status = "jogando";     // criar um enum para isso
 
-        while(status == "jogando"){
-            int rodada = 0;
+        do {
+            int round = 0;
 
-            if(rodada%2 == 0){                             // rodada jogador
+            if (round % 2 == 0) {                             // rodada jogador
 
-                Scanner lerPosicoes = new Scanner(System.in);
+                Scanner readCoordinates = new Scanner(System.in);
 
                 System.out.print("\nDigite a LINHA onde deseja bombardear: ");
-                char posicaoLinha = lerPosicoes.next().charAt(0);
+                char lineCoordinate = readCoordinates.next().toUpperCase().charAt(0);
 
                 System.out.print("Digite a COLUNA onde deseja bombardear: ");
-                char posicaoColuna = lerPosicoes.next().toUpperCase().charAt(0);
+                char columnCoordinate = readCoordinates.next().charAt(0);
 
-                int resultadoBombardeioJogador = bombardear(machineBoard,"Jogador",
-                        posicaoLinha,posicaoColuna);
-                switch (resultadoBombardeioJogador){
-                    case 1:
+                String personBombingResult = GameAction.bombOpponent(machinePlayer.gameBoard,"Jogador", lineCoordinate, columnCoordinate);
+
+                switch (personBombingResult) {
+                    case "accurate":
                         machineAmountOfWholeShips--;
-                        rodada++;
+                        round++;
                         break;
-                    case 2:
-                        rodada++;
+                    case "missed":
+                        round++;
                         break;
-                    case 3:
-                        System.out.printf("Você ja bombardeou esse local, escolha outro");
+                    case "repeated":
+                        System.out.printf("Você já bombardeou este local, escolha outro");
                         break;
                 }
 
-                GameBoard.showBoard(machineBoard, "Computador");
+//                GameBoard.showBoard(machineBoard, "Computador");
+                machinePlayer.showBoard("Máquina");
 
-                String resultadoRodada = finalizarJogo(machineAmountOfWholeShips,"Jogador",status);
-                status = resultadoRodada;
+                String roundResult = finalizarJogo(machineAmountOfWholeShips,"Jogador", status);
+                status = roundResult;
             }
 
-            if(rodada%2 != 0){   // rodada computador
+            if (round % 2 != 0) {   // rodada computador
                 int numeroLinha = (int) (Math.random()*4);
                 int numeroColuna = (int) (Math.random()*4);
 
-                char posicaoLinha = columnIdentifiers[numeroLinha];
-                char posicaoColuna = lineIdentifiers[numeroColuna];
+                char lineCoordinate = columnIdentifiers[numeroLinha];
+                char columnCoordinate = lineIdentifiers[numeroColuna];
 
-                int resultadoBombardeioComputador = bombardear(personBoard,"Computador",
-                        posicaoLinha,posicaoColuna);
-                switch (resultadoBombardeioComputador){
-                    case 1:
+                String machineBombingResult = GameAction.bombOpponent(personPlayer.gameBoard,"Computador", lineCoordinate,columnCoordinate);
+
+                switch (machineBombingResult) {
+                    case "accurate":
                         personAmountOfWholeShips--;
-                        rodada++;
+                        round++;
                         break;
-                    case 2:
-                        rodada++;
+                    case "missed":
+                        round++;
                         break;
-                    case 3:
+                    case "repeated":
                         System.out.printf("Você ja bombardeou esse local, escolha outro");
                         break;
                 }
 
-                GameBoard.showBoard(personBoard, "Jogador");
+//                GameBoard.showBoard(personBoard, "Jogador");
+                personPlayer.showBoard("Humano");
 
-                String resultadoRodada = finalizarJogo(personAmountOfWholeShips,"Computador",status);
-                status = resultadoRodada;
+                String roundResult = finalizarJogo(personAmountOfWholeShips,"Computador", status);
+                status = roundResult;
             }
-        }
+        } while(status == "jogando");
 
     }
 
@@ -134,32 +136,7 @@ public class batalhaNaval {
         return num;
     }
 
-    private static int bombardear(char[][] tabuleiro, String player,
-                                 char posicaoLinha, char posicaoColuna){
-        int result = 0;
-        for (int i = 0; i < tabuleiro.length; i++){
-            if (tabuleiro[i][1] == posicaoLinha){
-                for (int j = 0; j < tabuleiro[i].length; j++){
-                    if (tabuleiro[1][j] == posicaoColuna){
-                        if (tabuleiro[i][j] == 'N') {
-                            tabuleiro[i][j] = '*';
-                            result = 1;
 
-                        } else if (tabuleiro[i][j] == ' '){
-                            tabuleiro[i][j] = '-';
-                            result = 2;
-
-                        } else {
-                            if(player == "Jogador"){
-                                result = 3;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return result;
-    }
 
     private static String finalizarJogo(int numeroNavios, String player, String status){
         String resultado=status;
