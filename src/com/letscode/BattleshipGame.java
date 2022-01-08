@@ -70,7 +70,7 @@ public class BattleshipGame {
 
                 machinePlayer.showBoard("Máquina");
 
-                String roundResult = finalizarJogo(machineAmountOfWholeShips,"Jogador", status);
+                String roundResult = GameAction.updateGameStatus(machineAmountOfWholeShips,"Jogador", status);
                 status = roundResult;
             }
 
@@ -98,7 +98,7 @@ public class BattleshipGame {
 
                 personPlayer.showBoard("Humano");
 
-                String roundResult = finalizarJogo(personAmountOfWholeShips,"Computador", status);
+                String roundResult = GameAction.updateGameStatus(personAmountOfWholeShips,"Computador", status);
                 status = roundResult;
             }
         } while(status == "jogando");
@@ -123,19 +123,4 @@ public class BattleshipGame {
         return num;
     }
 
-    private static String finalizarJogo(int numeroNavios, String player, String status){
-        String resultado=status;
-
-        if(numeroNavios == 0 && player == "Jogador"){
-            System.out.printf("Parabéns, você venceu!!!");
-            resultado = "jogo finalizado";
-        }
-
-        if(numeroNavios == 0 && player == "Computador"){
-            System.out.printf("Visshh, você foi derrotado!");
-            resultado = "jogo finalizado";
-        }
-
-        return resultado;
-    }
 }
