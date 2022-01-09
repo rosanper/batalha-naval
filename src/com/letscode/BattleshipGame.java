@@ -75,8 +75,8 @@ public class BattleshipGame {
             }
 
             if (round % 2 != 0) {   // rodada computador
-                int numeroLinha = (int) (Math.random()*4);
-                int numeroColuna = (int) (Math.random()*4);
+                int numeroLinha = (int) (Math.random()*AMOUNT_OF_BOARD_COORDINATES);
+                int numeroColuna = (int) (Math.random()*AMOUNT_OF_BOARD_COORDINATES);
 
                 char lineCoordinate = lineIdentifiers[numeroLinha];
                 char columnCoordinate = columnIdentifiers[numeroColuna];
