@@ -1,5 +1,6 @@
 package com.letscode;
 
+import com.letscode.enums.GameStatus;
 import com.letscode.service.GameAction;
 import com.letscode.utils.BattleshipBoard;
 
@@ -38,7 +39,7 @@ public class BattleshipGame {
 
         // Jogando
 
-        String status = "jogando";     // criar um enum para isso
+        GameStatus status = GameStatus.JOGANDO;     // criar um enum para isso
         int round = 0;
 
         do {
@@ -99,11 +100,11 @@ public class BattleshipGame {
                 personPlayer.showBoard("Humano");
             }
 
-            String roundResult = GameAction.updateGameStatus(amountOfShips,player,status);
+            GameStatus roundResult = GameAction.updateGameStatus(amountOfShips,player,status);
             status = roundResult;
 
 
-        } while(status == "jogando");
+        } while(status == GameStatus.JOGANDO);
 
     }
 

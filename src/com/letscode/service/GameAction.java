@@ -1,6 +1,7 @@
 package com.letscode.service;
 
 import com.letscode.BattleshipGame;
+import com.letscode.enums.GameStatus;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -109,7 +110,7 @@ public class GameAction {
         return bombingResult;
     }
 
-    public static String updateGameStatus(int remainingShips, String player, String gameStatus) {
+    public static GameStatus updateGameStatus(int remainingShips, String player, GameStatus gameStatus) {
         if (remainingShips == 0) {
             switch (player) {
                 case "Jogador":
@@ -121,7 +122,7 @@ public class GameAction {
                 default:
                     break;
             }
-            gameStatus = "jogo finalizado";
+            gameStatus = GameStatus.JOGO_FINALIZADO;
         }
         return gameStatus;
     }
