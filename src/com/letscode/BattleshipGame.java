@@ -42,85 +42,70 @@ public class BattleshipGame {
         int round = 0;
 
         do {
+            char lineCoordinate = ' ';
+            char columnCoordinate = ' ';
+            char[][] gameBoard = new char[0][0];
+            String player = "";
+            int amountOfShips = 0;
+            String bombingResult;
 
-            if (round % 2 == 0) {                             // rodada jogador
+            if (round % 2 == 0) {                                                // rodada jogador
 
                 Scanner readCoordinates = new Scanner(System.in);
 
                 System.out.print("\nDigite a LINHA onde deseja bombardear: ");
-                char lineCoordinate = readCoordinates.next().toUpperCase().charAt(0);
+                lineCoordinate = readCoordinates.next().toUpperCase().charAt(0);
 
                 System.out.print("Digite a COLUNA onde deseja bombardear: ");
-                char columnCoordinate = readCoordinates.next().charAt(0);
+                columnCoordinate = readCoordinates.next().charAt(0);
 
-                String personBombingResult = GameAction.bombOpponent(machinePlayer.gameBoard,"Jogador", lineCoordinate, columnCoordinate);
+                player = "Jogador";
+                gameBoard = machinePlayer.gameBoard;
+                amountOfShips = machineAmountOfWholeShips;
 
-                switch (personBombingResult) {
-                    case "accurate":
-                        machineAmountOfWholeShips--;
-                        round++;
-                        break;
-                    case "missed":
-                        round++;
-                        break;
-                    case "repeated":
-                        System.out.printf("Você já bombardeou este local, escolha outro");
-                        break;
-                }
-
-                machinePlayer.showBoard("Máquina");
-
-                String roundResult = GameAction.updateGameStatus(machineAmountOfWholeShips,"Jogador", status);
-                status = roundResult;
             }
 
-            if (round % 2 != 0) {   // rodada computador
+            if (round % 2 != 0) {                                                // rodada computador
                 int numeroLinha = (int) (Math.random()*AMOUNT_OF_BOARD_COORDINATES);
                 int numeroColuna = (int) (Math.random()*AMOUNT_OF_BOARD_COORDINATES);
 
-                char lineCoordinate = lineIdentifiers[numeroLinha];
-                char columnCoordinate = columnIdentifiers[numeroColuna];
-
-                String machineBombingResult = GameAction.bombOpponent(personPlayer.gameBoard,"Computador", lineCoordinate,columnCoordinate);
-
-                switch (machineBombingResult) {
-                    case "accurate":
-                        personAmountOfWholeShips--;
-                        round++;
-                        break;
-                    case "missed":
-                        round++;
-                        break;
-                    case "repeated":
-                        System.out.printf("Você ja bombardeou esse local, escolha outro");
-                        break;
-                }
-
-                personPlayer.showBoard("Humano");
-
-                String roundResult = GameAction.updateGameStatus(personAmountOfWholeShips,"Computador", status);
-                status = roundResult;
+                lineCoordinate = lineIdentifiers[numeroLinha];
+                columnCoordinate = columnIdentifiers[numeroColuna];
+                player = "Computador";
+                gameBoard = personPlayer.gameBoard;
+                amountOfShips = personAmountOfWholeShips;
             }
+
+            bombingResult = GameAction.bombOpponent(gameBoard,player,lineCoordinate,columnCoordinate);
+
+            switch (bombingResult) {
+                case "accurate":
+                    amountOfShips--;
+                    round++;
+                    break;
+                case "missed":
+                    round++;
+                    break;
+                case "repeated":
+                    System.out.printf("Você ja bombardeou esse local, escolha outro");
+                    break;
+            }
+
+            if(player == "Jogador"){
+                machineAmountOfWholeShips = amountOfShips;
+                machinePlayer.showBoard("Máquina");
+            }else{
+                personAmountOfWholeShips = amountOfShips;
+                personPlayer.showBoard("Humano");
+            }
+
+            String roundResult = GameAction.updateGameStatus(amountOfShips,player,status);
+            status = roundResult;
+
+
         } while(status == "jogando");
 
     }
 
-    // funçoes criadas
-
-    private static boolean hasCharacter(char[] array, char charactere){   //utilizar para validar as entradas (ainda nao utilizei)
-        boolean result = false;
-        for(int i=0;i<array.length;i++){
-            if(array[i] == charactere){
-                result = true;
-                return result;
-            }
-        }
-        return result;
-    }
-
-    private static int gerarNumeroAleatório(char[] array){      // caso queira usar para subsituir as partes onde tem que gerar um numero aleatorio
-        int num = (int) (Math.random()*array.length);
-        return num;
-    }
 
 }
