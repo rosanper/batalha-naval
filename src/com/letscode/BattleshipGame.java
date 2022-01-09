@@ -39,9 +39,9 @@ public class BattleshipGame {
         // Jogando
 
         String status = "jogando";     // criar um enum para isso
+        int round = 0;
 
         do {
-            int round = 0;
 
             if (round % 2 == 0) {                             // rodada jogador
 
