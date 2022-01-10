@@ -84,4 +84,26 @@ public class BattleshipBoard {
         }
         System.out.printf("\n");
     }
+
+    public void showBoardWithoutShips(Player player) {
+        String currentPlayer = "";
+        if(player == Player.HUMANO){
+            currentPlayer = "Humano";
+        }else if(player == Player.MAQUINA){
+            currentPlayer = "Máquina";
+        }
+        System.out.printf("\nTabuleiro %s", player);
+
+        for(int i = 0; i < this.gameBoard.length; i++){
+            System.out.printf("\n");
+            for (int j = 0; j < this.gameBoard[i].length; j++){
+                if(this.gameBoard[i][j] == 'N'){
+                    System.out.print(' ');
+                }else{
+                    System.out.print(this.gameBoard[i][j]);
+                }
+            }
+        }
+        System.out.printf("\n");
+    }
 }
