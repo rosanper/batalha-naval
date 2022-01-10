@@ -1,6 +1,7 @@
 package com.letscode;
 
 import com.letscode.enums.GameStatus;
+import com.letscode.enums.Player;
 import com.letscode.service.GameAction;
 import com.letscode.utils.BattleshipBoard;
 
@@ -20,7 +21,7 @@ public class BattleshipGame {
         BattleshipBoard personPlayer = new BattleshipBoard();
         BattleshipBoard machinePlayer = new BattleshipBoard();
 
-        personPlayer.showBoard("Humano");
+        personPlayer.showBoard(Player.HUMANO);
 
         // Determinação das coordenadas dos navios
         char[][] personShips = GameAction.readShipsCoordinates();
@@ -30,8 +31,8 @@ public class BattleshipGame {
         personPlayer.positionShips(personShips);
         machinePlayer.positionShips(machineShips);
 
-        personPlayer.showBoard("Humano");
-        machinePlayer.showBoard("Máquina");    // Não exibir
+        personPlayer.showBoard(Player.HUMANO);
+        machinePlayer.showBoard(Player.MAQUINA);    // Não exibir
 
         int personAmountOfWholeShips = AMOUNT_OF_SHIPS;
         int machineAmountOfWholeShips = AMOUNT_OF_SHIPS;
@@ -45,7 +46,7 @@ public class BattleshipGame {
             char bombLineCoordinate = ' ';
             char bombColumnCoordinate = ' ';
             char[][] opponentGameBoard = new char[0][0];
-            String currentPlayer = "";
+            Player currentPlayer = Player.NULO;
             String bombingResult;
             int amountOfOpponentShips = 0;
 
@@ -59,7 +60,7 @@ public class BattleshipGame {
                 System.out.print("Digite a COLUNA onde deseja bombardear: ");
                 bombColumnCoordinate = readCoordinates.next().charAt(0);
 
-                currentPlayer = "Jogador";
+                currentPlayer = Player.HUMANO;
                 opponentGameBoard = machinePlayer.gameBoard;
                 amountOfOpponentShips = machineAmountOfWholeShips;
 
@@ -71,7 +72,7 @@ public class BattleshipGame {
 
                 bombLineCoordinate = LINE_IDENTIFIERS[randomLine];
                 bombColumnCoordinate = COLUMN_IDENTIFIERS[randomColumn];
-                currentPlayer = "Computador";
+                currentPlayer = Player.MAQUINA;
                 opponentGameBoard = personPlayer.gameBoard;
                 amountOfOpponentShips = personAmountOfWholeShips;
             }
@@ -91,12 +92,12 @@ public class BattleshipGame {
                     break;
             }
 
-            if(currentPlayer == "Jogador"){
+            if(currentPlayer == Player.HUMANO){
                 machineAmountOfWholeShips = amountOfOpponentShips;
-                machinePlayer.showBoard("Máquina");    // Não exibir
+                machinePlayer.showBoard(Player.MAQUINA);    // Não exibir
             }else{
                 personAmountOfWholeShips = amountOfOpponentShips;
-                personPlayer.showBoard("Humano");
+                personPlayer.showBoard(Player.HUMANO);
             }
 
             GameStatus roundResult = GameAction.updateGameStatus(amountOfOpponentShips, currentPlayer, status);

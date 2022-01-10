@@ -2,6 +2,7 @@ package com.letscode.service;
 
 import com.letscode.BattleshipGame;
 import com.letscode.enums.GameStatus;
+import com.letscode.enums.Player;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -83,7 +84,7 @@ public class GameAction {
         return createdShips;
     }
 
-    public static String bombOpponent(char[][] gameBoard, String player, char lineCoordinate, char columnCoordinate) {
+    public static String bombOpponent(char[][] gameBoard, Player player, char lineCoordinate, char columnCoordinate) {
         String bombingResult = "";
 
         for (int i = 0; i < gameBoard.length; i++) {
@@ -99,7 +100,7 @@ public class GameAction {
                             bombingResult = "missed";
 
                         } else {
-                            if(player == "Jogador") {
+                            if(player == Player.HUMANO) {
                                 bombingResult = "repeated";
                             }
                         }
@@ -110,13 +111,13 @@ public class GameAction {
         return bombingResult;
     }
 
-    public static GameStatus updateGameStatus(int remainingShips, String player, GameStatus gameStatus) {
+    public static GameStatus updateGameStatus(int remainingShips, Player player, GameStatus gameStatus) {
         if (remainingShips == 0) {
             switch (player) {
-                case "Jogador":
+                case HUMANO:
                     System.out.printf("Parabéns, você venceu!!!");
                     break;
-                case "Computador":
+                case MAQUINA:
                     System.out.printf("Visshh, você foi derrotado!");
                     break;
                 default:
