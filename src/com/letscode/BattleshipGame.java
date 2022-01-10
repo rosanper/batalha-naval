@@ -43,45 +43,45 @@ public class BattleshipGame {
         int round = 0;
 
         do {
-            char lineCoordinate = ' ';
-            char columnCoordinate = ' ';
-            char[][] gameBoard = new char[0][0];
-            String player = "";
-            int amountOfShips = 0;
+            char bombLineCoordinate = ' ';
+            char bombColumnCoordinate = ' ';
+            char[][] opponentGameBoard = new char[0][0];
+            String currentPlayer = "";
             String bombingResult;
+            int amountOfOpponentShips = 0;
 
             if (round % 2 == 0) {                                                // rodada jogador
 
                 Scanner readCoordinates = new Scanner(System.in);
 
                 System.out.print("\nDigite a LINHA onde deseja bombardear: ");
-                lineCoordinate = readCoordinates.next().toUpperCase().charAt(0);
+                bombLineCoordinate = readCoordinates.next().toUpperCase().charAt(0);
 
                 System.out.print("Digite a COLUNA onde deseja bombardear: ");
-                columnCoordinate = readCoordinates.next().charAt(0);
+                bombColumnCoordinate = readCoordinates.next().charAt(0);
 
-                player = "Jogador";
-                gameBoard = machinePlayer.gameBoard;
-                amountOfShips = machineAmountOfWholeShips;
+                currentPlayer = "Jogador";
+                opponentGameBoard = machinePlayer.gameBoard;
+                amountOfOpponentShips = machineAmountOfWholeShips;
 
             }
 
             if (round % 2 != 0) {                                                // rodada computador
-                int numeroLinha = (int) (Math.random()*AMOUNT_OF_BOARD_COORDINATES);
-                int numeroColuna = (int) (Math.random()*AMOUNT_OF_BOARD_COORDINATES);
+                int randomLine = (int) (Math.random() * AMOUNT_OF_BOARD_COORDINATES);
+                int randomColumn = (int) (Math.random() * AMOUNT_OF_BOARD_COORDINATES);
 
-                lineCoordinate = lineIdentifiers[numeroLinha];
-                columnCoordinate = columnIdentifiers[numeroColuna];
-                player = "Computador";
-                gameBoard = personPlayer.gameBoard;
-                amountOfShips = personAmountOfWholeShips;
+                bombLineCoordinate = lineIdentifiers[randomLine];
+                bombColumnCoordinate = columnIdentifiers[randomColumn];
+                currentPlayer = "Computador";
+                opponentGameBoard = personPlayer.gameBoard;
+                amountOfOpponentShips = personAmountOfWholeShips;
             }
 
-            bombingResult = GameAction.bombOpponent(gameBoard,player,lineCoordinate,columnCoordinate);
+            bombingResult = GameAction.bombOpponent(opponentGameBoard, currentPlayer, bombLineCoordinate, bombColumnCoordinate);
 
             switch (bombingResult) {
                 case "accurate":
-                    amountOfShips--;
+                    amountOfOpponentShips--;
                     round++;
                     break;
                 case "missed":
@@ -92,15 +92,15 @@ public class BattleshipGame {
                     break;
             }
 
-            if(player == "Jogador"){
-                machineAmountOfWholeShips = amountOfShips;
+            if(currentPlayer == "Jogador"){
+                machineAmountOfWholeShips = amountOfOpponentShips;
                 machinePlayer.showBoard("Máquina");
             }else{
-                personAmountOfWholeShips = amountOfShips;
+                personAmountOfWholeShips = amountOfOpponentShips;
                 personPlayer.showBoard("Humano");
             }
 
-            GameStatus roundResult = GameAction.updateGameStatus(amountOfShips,player,status);
+            GameStatus roundResult = GameAction.updateGameStatus(amountOfOpponentShips, currentPlayer, status);
             status = roundResult;
 
 
