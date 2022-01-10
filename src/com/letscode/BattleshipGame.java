@@ -94,9 +94,11 @@ public class BattleshipGame {
 
             if(currentPlayer == Player.HUMANO){
                 machineAmountOfWholeShips = amountOfOpponentShips;
+                GameAction.reultadoDoBombardeio(currentPlayer,bombingResult);
                 machinePlayer.showBoardWithoutShips(Player.MAQUINA);    // Não exibir
             }else{
                 personAmountOfWholeShips = amountOfOpponentShips;
+                GameAction.reultadoDoBombardeio(currentPlayer,bombingResult);
                 personPlayer.showBoard(Player.HUMANO);
             }
 
