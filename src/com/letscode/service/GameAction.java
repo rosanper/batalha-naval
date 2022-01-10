@@ -115,10 +115,10 @@ public class GameAction {
         if (remainingShips == 0) {
             switch (player) {
                 case HUMANO:
-                    System.out.printf("Parabéns, você venceu!!!");
+                    System.out.println("Parabéns, você venceu!!!");
                     break;
                 case MAQUINA:
-                    System.out.printf("Visshh, você foi derrotado!");
+                    System.out.println("Visshh, você foi derrotado!");
                     break;
                 default:
                     break;
@@ -128,17 +128,17 @@ public class GameAction {
         return gameStatus;
     }
 
-    public static void reultadoDoBombardeio (Player player, String bombingResult){
-        System.out.printf("Rodada do %s: ",player);
+    public static void bombingResultMessage(Player player, String bombingResult){
+        System.out.printf("Rodada %s: ",player);
         switch (bombingResult) {
             case "accurate":
-                System.out.printf("Um navio ínimigo foi atingido!");
+                System.out.println("Um navio ínimigo foi atingido!");
                 break;
             case "missed":
-                System.out.printf("O tiro atingiu a água");
+                System.out.println("O tiro atingiu a água!");
                 break;
             case "repeated":
-                System.out.printf("Você ja bombardeou esse local, escolha outro");
+                System.out.println("Você já bombardeou esse local, escolha outro");
                 break;
         }
     }
