@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class GameAction {
 
-    public static char[][] readShipsCoordinates(char[] lineIdentifiers, char[] columnIdentifiers) {
+    public static char[][] readShipsCoordinates() {
         int createdShips = 0;
         char[][] shipsCoordinates = new char[BattleshipGame.AMOUNT_OF_SHIPS][2];
 
@@ -20,20 +20,20 @@ public class GameAction {
                 System.out.printf("\nDigite a LINHA onde deseja colocar o navio #%d: ", createdShips + 1);
                 shipsCoordinates[createdShips][0] = readCoordinates.next().toUpperCase().charAt(0);
 
-                if (Arrays.binarySearch(lineIdentifiers, shipsCoordinates[createdShips][0]) < 0) {
+                if (Arrays.binarySearch(BattleshipGame.LINE_IDENTIFIERS, shipsCoordinates[createdShips][0]) < 0) {
                     System.out.println("** ATENÇÃO: Esta linha não existe, tente novamente **");
                 }
-            } while (Arrays.binarySearch(lineIdentifiers, shipsCoordinates[createdShips][0]) < 0);
+            } while (Arrays.binarySearch(BattleshipGame.LINE_IDENTIFIERS, shipsCoordinates[createdShips][0]) < 0);
 
             // usuario adiciona coluna para navio - com validaçao
             do {
                 System.out.printf("Digite a COLUNA onde deseja colocar o navio #%d: ", createdShips + 1);
                 shipsCoordinates[createdShips][1] = readCoordinates.next().charAt(0);
 
-                if (Arrays.binarySearch(columnIdentifiers, shipsCoordinates[createdShips][1]) < 0) {
+                if (Arrays.binarySearch(BattleshipGame.COLUMN_IDENTIFIERS, shipsCoordinates[createdShips][1]) < 0) {
                     System.out.println("** ATENÇÃO: Esta coluna não existe, tente novamente **\n");
                 }
-            } while (Arrays.binarySearch(columnIdentifiers, shipsCoordinates[createdShips][1]) < 0);
+            } while (Arrays.binarySearch(BattleshipGame.COLUMN_IDENTIFIERS, shipsCoordinates[createdShips][1]) < 0);
 
             createdShips = validateCreatedShips(createdShips, shipsCoordinates);
 
@@ -42,7 +42,7 @@ public class GameAction {
         return shipsCoordinates;
     }
 
-    public static char[][] createRandomShipsCoordinates(char[] lineIdentifiers, char[] columnIdentifiers) {
+    public static char[][] createRandomShipsCoordinates() {
         int createdShips = 0;
         int lineCoordinate;
         int columnCoordinate;
@@ -51,10 +51,10 @@ public class GameAction {
         do {
             for (int i = 0; i < randomShipsCoordinates.length; i++) {
                 lineCoordinate = (int) (Math.random() * BattleshipGame.AMOUNT_OF_BOARD_COORDINATES);
-                randomShipsCoordinates[i][0] = lineIdentifiers[lineCoordinate];
+                randomShipsCoordinates[i][0] = BattleshipGame.LINE_IDENTIFIERS[lineCoordinate];
 
                 columnCoordinate = (int) (Math.random() * BattleshipGame.AMOUNT_OF_BOARD_COORDINATES);
-                randomShipsCoordinates[i][1] = columnIdentifiers[columnCoordinate];
+                randomShipsCoordinates[i][1] = BattleshipGame.COLUMN_IDENTIFIERS[columnCoordinate];
             }
 
             createdShips = validateCreatedShips(createdShips, randomShipsCoordinates);

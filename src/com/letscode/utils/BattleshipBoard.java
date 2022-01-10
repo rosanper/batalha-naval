@@ -5,13 +5,9 @@ import com.letscode.BattleshipGame;
 import java.util.Arrays;
 
 public class BattleshipBoard {
-    private char[] lineIdentifiers;
-    private char[] columnIdentifiers;
     public char[][] gameBoard;
 
     public BattleshipBoard() {
-        this.lineIdentifiers = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
-        this.columnIdentifiers = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
         this.gameBoard = this.createGameBoard();
     }
 
@@ -28,13 +24,13 @@ public class BattleshipBoard {
                     if (i == 1) {
                         line[i] = ' ';
                     } else {
-                        line[i] = (i % 2 == 0) ? '|' : this.columnIdentifiers[columnIdentifierIndex++];
+                        line[i] = (i % 2 == 0) ? '|' : BattleshipGame.COLUMN_IDENTIFIERS[columnIdentifierIndex++];
                     }
                 }
             } else {    // preenchimento das linhas do campo de jogo
                 for (int i = 0; i < line.length; i++) {
                     if (i == 1) {
-                        line[i] = this.lineIdentifiers[lineIdentifierIndex];
+                        line[i] = BattleshipGame.LINE_IDENTIFIERS[lineIdentifierIndex];
                         lineIdentifierIndex++;
                     } else {
                         line[i] = i % 2 == 0 ? '|' : ' ';
