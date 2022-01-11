@@ -129,17 +129,18 @@ public class GameAction {
         return gameStatus;
     }
 
-    public static void bombingResultMessage(Player player, String bombingResult){
-        System.out.printf("Rodada %s: ",player);
+    public static void bombingResultMessage(Player player, String bombingResult) {
         switch (bombingResult) {
             case "accurate":
-                System.out.println("Um navio ínimigo foi atingido!");
+                System.out.printf("\nRodada %s: ",player);
+                System.out.println("Um navio inimigo foi atingido!");
                 break;
             case "missed":
+                System.out.printf("\nRodada %s: ",player);
                 System.out.println("O tiro atingiu a água!");
                 break;
             case "repeated":
-                System.out.println("Você já bombardeou esse local, escolha outro");
+                System.out.println("\n** ATENÇÃO: Você já bombardeou esse local, escolha outro **");
                 break;
         }
     }

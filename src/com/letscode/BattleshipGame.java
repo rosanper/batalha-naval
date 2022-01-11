@@ -42,7 +42,7 @@ public class BattleshipGame {
         GameStatus status = GameStatus.JOGANDO;
         int round = 0;
 
-        System.out.println("O jogo vai começar:");
+        System.out.println("\nO jogo vai começar:");
 
         do {
             char bombLineCoordinate = ' ';
@@ -91,7 +91,6 @@ public class BattleshipGame {
                     round++;
                     break;
                 case "repeated":
-                    System.out.printf("Você ja bombardeou esse local, escolha outro");
                     break;
             }
 
@@ -112,7 +111,6 @@ public class BattleshipGame {
                 machinePlayer.showBoardWithoutShips(Player.MAQUINA);
                 personPlayer.showBoard(Player.HUMANO);
             }
-
 
         } while(status == GameStatus.JOGANDO);
 
