@@ -65,14 +65,15 @@ public class GameAction {
         return randomShipsCoordinates;
     }
 
-    private static int validateCreatedShips(int createdShips, char[][] randomShipsCoordinates) {
+    private static int validateCreatedShips(int createdShips, char[][] shipsCoordinates) {
         if (createdShips == 0) {
             createdShips++;
         } else {
             boolean shipWasPositioned = false;
 
             for (int i = 0; i < createdShips; i++) {
-                if (randomShipsCoordinates[createdShips][0] == randomShipsCoordinates[i][0] && randomShipsCoordinates[createdShips][1] == randomShipsCoordinates[i][1]) {
+                if (shipsCoordinates[createdShips][0] == shipsCoordinates[i][0] && shipsCoordinates[createdShips][1] == shipsCoordinates[i][1]) {
+                    shipWasPositioned = false;
                     System.out.println("Já existe um navio nessas coordenadas, favor escolher novamente.");
                     break;
                 }
