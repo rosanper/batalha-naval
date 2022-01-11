@@ -45,43 +45,32 @@ public class BattleshipGame {
         System.out.println("\nO jogo vai começar:");
 
         do {
-            char bombLineCoordinate = ' ';
-            char bombColumnCoordinate = ' ';
+            char[] bombCoordinates = new char[2];
             char[][] opponentGameBoard = new char[0][0];
             Player currentPlayer = Player.NULO;
             String bombingResult;
             int amountOfOpponentShips = 0;
 
-            if (round % 2 == 0) {                                                // rodada jogador
-
+            if (round % 2 == 0) {   // rodada jogador
                 personPlayer.showBoard(Player.HUMANO);
                 machinePlayer.showBoardWithoutShips(Player.MAQUINA);
-                Scanner readCoordinates = new Scanner(System.in);
 
-                System.out.print("\nDigite a LINHA onde deseja bombardear: ");
-                bombLineCoordinate = readCoordinates.next().toUpperCase().charAt(0);
-
-                System.out.print("Digite a COLUNA onde deseja bombardear: ");
-                bombColumnCoordinate = readCoordinates.next().charAt(0);
+                bombCoordinates = GameAction.setBombingCoordinates(round);
 
                 currentPlayer = Player.HUMANO;
                 opponentGameBoard = machinePlayer.gameBoard;
                 amountOfOpponentShips = machineAmountOfWholeShips;
-
             }
 
-            if (round % 2 != 0) {                                                // rodada computador
-                int randomLine = (int) (Math.random() * AMOUNT_OF_BOARD_COORDINATES);
-                int randomColumn = (int) (Math.random() * AMOUNT_OF_BOARD_COORDINATES);
+            if (round % 2 != 0) {   // rodada computador
+                bombCoordinates = GameAction.setBombingCoordinates(round);
 
-                bombLineCoordinate = LINE_IDENTIFIERS[randomLine];
-                bombColumnCoordinate = COLUMN_IDENTIFIERS[randomColumn];
                 currentPlayer = Player.MAQUINA;
                 opponentGameBoard = personPlayer.gameBoard;
                 amountOfOpponentShips = personAmountOfWholeShips;
             }
 
-            bombingResult = GameAction.bombOpponent(opponentGameBoard, currentPlayer, bombLineCoordinate, bombColumnCoordinate);
+            bombingResult = GameAction.bombOpponent(opponentGameBoard, currentPlayer, bombCoordinates);
 
             switch (bombingResult) {
                 case "accurate":
@@ -95,7 +84,7 @@ public class BattleshipGame {
                     break;
             }
 
-            if(currentPlayer == Player.HUMANO) {
+            if (currentPlayer == Player.HUMANO) {
                 machineAmountOfWholeShips = amountOfOpponentShips;
                 GameAction.bombingResultMessage(currentPlayer,bombingResult);
             } else {

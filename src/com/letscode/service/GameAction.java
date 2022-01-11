@@ -1,12 +1,41 @@
 package com.letscode.service;
 
+import com.letscode.BattleshipGame;
 import com.letscode.enums.GameStatus;
 import com.letscode.enums.Player;
 
+import java.util.Scanner;
+
 public class GameAction {
 
-    public static String bombOpponent(char[][] gameBoard, Player player, char lineCoordinate, char columnCoordinate) {
+    public static char[] setBombingCoordinates(int round) {
+        char[] coordinates = new char[2];
+
+        if (round % 2 == 0) {
+            Scanner readCoordinates = new Scanner(System.in);
+
+            System.out.print("\nDigite a LINHA onde deseja bombardear: ");
+            coordinates[0] = readCoordinates.next().toUpperCase().charAt(0);
+
+            System.out.print("Digite a COLUNA onde deseja bombardear: ");
+            coordinates[1] = readCoordinates.next().charAt(0);
+        }
+
+        if (round % 2 != 0) {
+            int randomLine = (int) (Math.random() * BattleshipGame.AMOUNT_OF_BOARD_COORDINATES);
+            int randomColumn = (int) (Math.random() * BattleshipGame.AMOUNT_OF_BOARD_COORDINATES);
+
+            coordinates[0] = BattleshipGame.LINE_IDENTIFIERS[randomLine];
+            coordinates[1] = BattleshipGame.COLUMN_IDENTIFIERS[randomColumn];
+        }
+
+        return coordinates;
+    }
+
+    public static String bombOpponent(char[][] gameBoard, Player player, char[] bombCoordinates) {
         String bombingResult = "";
+        char lineCoordinate = bombCoordinates[0];
+        char columnCoordinate = bombCoordinates[1];
 
         for (int i = 0; i < gameBoard.length; i++) {
             if (gameBoard[i][1] == lineCoordinate) {
