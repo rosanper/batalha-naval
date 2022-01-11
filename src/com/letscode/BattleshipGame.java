@@ -3,6 +3,7 @@ package com.letscode;
 import com.letscode.enums.GameStatus;
 import com.letscode.enums.Player;
 import com.letscode.service.GameAction;
+import com.letscode.service.ShipsPlacement;
 import com.letscode.utils.BattleshipBoard;
 
 import java.util.Scanner;
@@ -24,15 +25,14 @@ public class BattleshipGame {
         personPlayer.showBoard(Player.HUMANO);
 
         // Determinação das coordenadas dos navios
-        char[][] personShips = GameAction.readShipsCoordinates();
-        char[][] machineShips = GameAction.createRandomShipsCoordinates();
+        char[][] personShips = ShipsPlacement.readCoordinates();
+        char[][] machineShips = ShipsPlacement.createRandomCoordinates();
 
         // Posicionamento dos navios nos tabluleiros
         personPlayer.positionShips(personShips);
         machinePlayer.positionShips(machineShips);
 
         personPlayer.showBoard(Player.HUMANO);
-//        machinePlayer.showBoard(Player.MAQUINA);    // Não exibir
 
         int personAmountOfWholeShips = AMOUNT_OF_SHIPS;
         int machineAmountOfWholeShips = AMOUNT_OF_SHIPS;
@@ -54,6 +54,7 @@ public class BattleshipGame {
 
             if (round % 2 == 0) {                                                // rodada jogador
 
+                personPlayer.showBoard(Player.HUMANO);
                 machinePlayer.showBoardWithoutShips(Player.MAQUINA);
                 Scanner readCoordinates = new Scanner(System.in);
 
@@ -94,14 +95,12 @@ public class BattleshipGame {
                     break;
             }
 
-            if(currentPlayer == Player.HUMANO){
+            if(currentPlayer == Player.HUMANO) {
                 machineAmountOfWholeShips = amountOfOpponentShips;
                 GameAction.bombingResultMessage(currentPlayer,bombingResult);
-//                machinePlayer.showBoardWithoutShips(Player.MAQUINA);    // Não exibir
-            }else{
+            } else {
                 personAmountOfWholeShips = amountOfOpponentShips;
                 GameAction.bombingResultMessage(currentPlayer,bombingResult);
-//                personPlayer.showBoard(Player.HUMANO);     // Não exibir
             }
 
             GameStatus roundResult = GameAction.updateGameStatus(amountOfOpponentShips, currentPlayer, status);
