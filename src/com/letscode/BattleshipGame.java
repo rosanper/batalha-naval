@@ -34,74 +34,7 @@ public class BattleshipGame {
 
         personPlayer.showBoard(Player.HUMANO);
 
-        int personAmountOfWholeShips = AMOUNT_OF_SHIPS;
-        int machineAmountOfWholeShips = AMOUNT_OF_SHIPS;
-
-        // Jogando
-
-        GameStatus status = GameStatus.JOGANDO;
-        int round = 0;
-
-        System.out.println("\nO jogo vai começar:");
-
-        do {
-            char[] bombCoordinates = new char[2];
-            char[][] opponentGameBoard = new char[0][0];
-            Player currentPlayer = Player.NULO;
-            String bombingResult;
-            int amountOfOpponentShips = 0;
-
-            if (round % 2 == 0) {   // rodada jogador
-                personPlayer.showBoard(Player.HUMANO);
-                machinePlayer.showBoardWithoutShips(Player.MAQUINA);
-
-                bombCoordinates = GameAction.setBombingCoordinates(round);
-
-                currentPlayer = Player.HUMANO;
-                opponentGameBoard = machinePlayer.gameBoard;
-                amountOfOpponentShips = machineAmountOfWholeShips;
-            }
-
-            if (round % 2 != 0) {   // rodada computador
-                bombCoordinates = GameAction.setBombingCoordinates(round);
-
-                currentPlayer = Player.MAQUINA;
-                opponentGameBoard = personPlayer.gameBoard;
-                amountOfOpponentShips = personAmountOfWholeShips;
-            }
-
-            bombingResult = GameAction.bombOpponent(opponentGameBoard, currentPlayer, bombCoordinates);
-
-            switch (bombingResult) {
-                case "accurate":
-                    amountOfOpponentShips--;
-                    round++;
-                    break;
-                case "missed":
-                    round++;
-                    break;
-                case "repeated":
-                    break;
-            }
-
-            if (currentPlayer == Player.HUMANO) {
-                machineAmountOfWholeShips = amountOfOpponentShips;
-                GameAction.bombingResultMessage(currentPlayer,bombingResult);
-            } else {
-                personAmountOfWholeShips = amountOfOpponentShips;
-                GameAction.bombingResultMessage(currentPlayer,bombingResult);
-            }
-
-            GameStatus roundResult = GameAction.updateGameStatus(amountOfOpponentShips, currentPlayer, status);
-            status = roundResult;
-
-            if(status == GameStatus.JOGO_FINALIZADO){
-                machinePlayer.showBoardWithoutShips(Player.MAQUINA);
-                personPlayer.showBoard(Player.HUMANO);
-            }
-
-        } while(status == GameStatus.JOGANDO);
-
+        GameAction.playGame(personPlayer, machinePlayer);
     }
 
 
