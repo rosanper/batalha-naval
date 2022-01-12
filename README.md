@@ -5,8 +5,8 @@ Atividade do curso Santander Coders | Web Full-Stack da Let's Code.
 ## Batalha Naval
 
 Trabalho final do modulo 6 - Java, realizado pela dupla:
-1) [Cássia Martinelli](htps://github.com/cmartinellicm);
-2) [Rodrigo Santana](https://github.com/rosanper).
+1) [Cássia Martinelli](htps://github.com/cmartinellicm)
+2) [Rodrigo Santana](https://github.com/rosanper)
 
 ### Requisitos da atividade:
 
