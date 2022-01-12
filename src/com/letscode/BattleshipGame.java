@@ -29,8 +29,6 @@ public class BattleshipGame {
         humanPlayer.positionShips(humanShips);
         machinePlayer.positionShips(machineShips);
 
-        humanPlayer.showBoard(Player.HUMANO);
-
         GameAction.playGame(humanPlayer, machinePlayer);
     }
 
