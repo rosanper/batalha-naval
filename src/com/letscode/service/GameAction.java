@@ -22,7 +22,8 @@ public class GameAction {
         do {
             if (currentPlayer == Player.HUMANO) {
                 humanPlayer.showBoard(Player.HUMANO);
-                machinePlayer.showBoardWithoutShips(Player.MAQUINA);
+//                machinePlayer.showBoardWithoutShips(Player.MAQUINA);
+                machinePlayer.showBoard(Player.MAQUINA);
             }
 
             // Determinação das variáveis da rodada
@@ -31,7 +32,7 @@ public class GameAction {
             char[] bombCoordinates = setBombCoordinates(currentPlayer);
 
             // Bombardeio
-            String bombingResult = bombOpponent(currentPlayer, bombCoordinates, opponentGameBoard);
+            String bombingResult = bombOpponent(bombCoordinates, opponentGameBoard);
 
             // Atualização das variáveis da rodada
             amountOfOpponentShips = updateBombingResult(currentPlayer, bombingResult, amountOfOpponentShips);
@@ -78,11 +79,15 @@ public class GameAction {
         }
 
         if (player == Player.MAQUINA) {
-            int randomLine = (int) (Math.random() * BattleshipGame.AMOUNT_OF_BOARD_COORDINATES);
-            int randomColumn = (int) (Math.random() * BattleshipGame.AMOUNT_OF_BOARD_COORDINATES);
+            do {
+                int randomLine = (int) (Math.random() * BattleshipGame.AMOUNT_OF_BOARD_COORDINATES);
+                coordinates[0] = BattleshipGame.LINE_IDENTIFIERS[randomLine];
+            } while (Arrays.binarySearch(BattleshipGame.LINE_IDENTIFIERS, coordinates[0]) < 0);
 
-            coordinates[0] = BattleshipGame.LINE_IDENTIFIERS[randomLine];
-            coordinates[1] = BattleshipGame.COLUMN_IDENTIFIERS[randomColumn];
+            do {
+                int randomColumn = (int) (Math.random() * BattleshipGame.AMOUNT_OF_BOARD_COORDINATES);
+                coordinates[1] = BattleshipGame.COLUMN_IDENTIFIERS[randomColumn];
+            } while (Arrays.binarySearch(BattleshipGame.COLUMN_IDENTIFIERS, coordinates[1]) < 0);
         }
 
         return coordinates;
@@ -106,7 +111,7 @@ public class GameAction {
         return amountOfOpponentShips;
     }
 
-    private static String bombOpponent(Player player, char[] bombCoordinates, char[][] opponentGameBoard) {
+    private static String bombOpponent(char[] bombCoordinates, char[][] opponentGameBoard) {
         String bombingResult = "";
         char lineCoordinate = bombCoordinates[0];
         char columnCoordinate = bombCoordinates[1];
@@ -124,9 +129,7 @@ public class GameAction {
                             bombingResult = "missed";
 
                         } else {
-                            if(player == Player.HUMANO) {
-                                bombingResult = "repeated";
-                            }
+                            bombingResult = "repeated";
                         }
                     }
                 }
@@ -147,7 +150,9 @@ public class GameAction {
                 System.out.println("O tiro atingiu a água!");
                 break;
             case "repeated":
-                System.out.println("\n** ATENÇÃO: Você já bombardeou este local, escolha outro **");
+                if(player == Player.HUMANO) {
+                    System.out.println("\n** ATENÇÃO: Você já bombardeou este local, escolha outro **");
+                }
                 break;
         }
 
