@@ -1,6 +1,7 @@
 package com.letscode.service;
 
 import com.letscode.BattleshipGame;
+import com.letscode.enums.Player;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -10,6 +11,7 @@ public class ShipsPlacement {
     public static char[][] readCoordinates() {
         int createdShips = 0;
         char[][] shipsCoordinates = new char[BattleshipGame.AMOUNT_OF_SHIPS][2];
+        Player player = Player.HUMANO;
 
         Scanner readCoordinates = new Scanner(System.in);
 
@@ -34,7 +36,7 @@ public class ShipsPlacement {
                 }
             } while (Arrays.binarySearch(BattleshipGame.COLUMN_IDENTIFIERS, shipsCoordinates[createdShips][1]) < 0);
 
-            createdShips = validateCreatedShips(createdShips, shipsCoordinates);
+            createdShips = validateCreatedShips(createdShips, shipsCoordinates, player);
 
         } while (createdShips < BattleshipGame.AMOUNT_OF_SHIPS);
 
@@ -46,24 +48,23 @@ public class ShipsPlacement {
         int lineCoordinate;
         int columnCoordinate;
         char[][] randomShipsCoordinates = new char[BattleshipGame.AMOUNT_OF_SHIPS][2];
+        Player player = Player.MAQUINA;
 
         do {
-            for (int i = 0; i < randomShipsCoordinates.length; i++) {
-                lineCoordinate = (int) (Math.random() * BattleshipGame.AMOUNT_OF_BOARD_COORDINATES);
-                randomShipsCoordinates[i][0] = BattleshipGame.LINE_IDENTIFIERS[lineCoordinate];
+            lineCoordinate = (int) (Math.random() * BattleshipGame.AMOUNT_OF_BOARD_COORDINATES);
+            randomShipsCoordinates[createdShips][0] = BattleshipGame.LINE_IDENTIFIERS[lineCoordinate];
 
-                columnCoordinate = (int) (Math.random() * BattleshipGame.AMOUNT_OF_BOARD_COORDINATES);
-                randomShipsCoordinates[i][1] = BattleshipGame.COLUMN_IDENTIFIERS[columnCoordinate];
-            }
+            columnCoordinate = (int) (Math.random() * BattleshipGame.AMOUNT_OF_BOARD_COORDINATES);
+            randomShipsCoordinates[createdShips][1] = BattleshipGame.COLUMN_IDENTIFIERS[columnCoordinate];
 
-            createdShips = validateCreatedShips(createdShips, randomShipsCoordinates);
+            createdShips = validateCreatedShips(createdShips, randomShipsCoordinates, player);
 
         } while (createdShips < BattleshipGame.AMOUNT_OF_SHIPS);
 
         return randomShipsCoordinates;
     }
 
-    private static int validateCreatedShips(int createdShips, char[][] shipsCoordinates) {
+    private static int validateCreatedShips(int createdShips, char[][] shipsCoordinates, Player player) {
         if (createdShips == 0) {
             createdShips++;
         } else {
@@ -72,7 +73,9 @@ public class ShipsPlacement {
             for (int i = 0; i < createdShips; i++) {
                 if (shipsCoordinates[createdShips][0] == shipsCoordinates[i][0] && shipsCoordinates[createdShips][1] == shipsCoordinates[i][1]) {
                     shipWasPositioned = false;
-                    System.out.println("** ATENÇÃO: Já existe um navio nestas coordenadas, favor escolher novamente **");
+                    if (player == Player.HUMANO) {
+                        System.out.println("** ATENÇÃO: Já existe um navio nestas coordenadas, favor escolher novamente **");
+                    }
                     break;
                 }
                 shipWasPositioned = true;

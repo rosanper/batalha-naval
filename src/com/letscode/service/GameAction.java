@@ -78,16 +78,12 @@ public class GameAction {
             } while (Arrays.binarySearch(BattleshipGame.COLUMN_IDENTIFIERS, coordinates[1]) < 0);
         }
 
-        if (player == Player.MAQUINA) {
-            do {
-                int randomLine = (int) (Math.random() * BattleshipGame.AMOUNT_OF_BOARD_COORDINATES);
-                coordinates[0] = BattleshipGame.LINE_IDENTIFIERS[randomLine];
-            } while (Arrays.binarySearch(BattleshipGame.LINE_IDENTIFIERS, coordinates[0]) < 0);
+        if (player == Player.MAQUINA) { // TODO: validar repetição
+            int randomLine = (int) (Math.random() * BattleshipGame.AMOUNT_OF_BOARD_COORDINATES);
+            int randomColumn = (int) (Math.random() * BattleshipGame.AMOUNT_OF_BOARD_COORDINATES);
 
-            do {
-                int randomColumn = (int) (Math.random() * BattleshipGame.AMOUNT_OF_BOARD_COORDINATES);
-                coordinates[1] = BattleshipGame.COLUMN_IDENTIFIERS[randomColumn];
-            } while (Arrays.binarySearch(BattleshipGame.COLUMN_IDENTIFIERS, coordinates[1]) < 0);
+            coordinates[0] = BattleshipGame.LINE_IDENTIFIERS[randomLine];
+            coordinates[1] = BattleshipGame.COLUMN_IDENTIFIERS[randomColumn];
         }
 
         return coordinates;
@@ -151,7 +147,7 @@ public class GameAction {
                 break;
             case "repeated":
                 if(player == Player.HUMANO) {
-                    System.out.println("\n** ATENÇÃO: Você já bombardeou este local, escolha outro **");
+                    System.out.println("\n** ATENÇÃO: Você já bombardeou este local, escolha outro **"); // TODO: repetir bombardeio
                 }
                 break;
         }
