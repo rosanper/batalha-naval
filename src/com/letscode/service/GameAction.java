@@ -22,8 +22,7 @@ public class GameAction {
         do {
             if (currentPlayer == Player.HUMANO) {
                 humanPlayer.showBoard(Player.HUMANO);
-//                machinePlayer.showBoardWithoutShips(Player.MAQUINA);
-                machinePlayer.showBoard(Player.MAQUINA);
+                machinePlayer.showBoardWithoutShips(Player.MAQUINA);
             }
 
             // Determinação das variáveis da rodada
