@@ -29,10 +29,14 @@ public class GameAction {
             // Determinação das variáveis da rodada
             int amountOfOpponentShips = setAmountOfOpponentShips(currentPlayer, humanAmountOfWholeShips, machineAmountOfWholeShips);
             char[][] opponentGameBoard = setOpponentGameBoard(currentPlayer, humanPlayer.gameBoard, machinePlayer.gameBoard);
-            char[] bombCoordinates = setBombCoordinates(currentPlayer);
+            char[] bombCoordinates;
 
             // Bombardeio
-            String bombingResult = bombOpponent(bombCoordinates, opponentGameBoard);
+            String bombingResult = "";
+            do {
+                bombCoordinates = setBombCoordinates(currentPlayer);
+                bombingResult = bombOpponent(currentPlayer, bombCoordinates, opponentGameBoard);
+            } while (bombingResult == "repeated");
 
             // Atualização das variáveis da rodada
             amountOfOpponentShips = updateBombingResult(currentPlayer, bombingResult, amountOfOpponentShips);
@@ -107,7 +111,7 @@ public class GameAction {
         return amountOfOpponentShips;
     }
 
-    private static String bombOpponent(char[] bombCoordinates, char[][] opponentGameBoard) {
+    private static String bombOpponent(Player player, char[] bombCoordinates, char[][] opponentGameBoard) {
         String bombingResult = "";
         char lineCoordinate = bombCoordinates[0];
         char columnCoordinate = bombCoordinates[1];
@@ -126,6 +130,9 @@ public class GameAction {
 
                         } else {
                             bombingResult = "repeated";
+                            if(player == Player.HUMANO) {
+                                System.out.println("\n** ATENÇÃO: Você já bombardeou este local, escolha outro **");
+                            }
                         }
                     }
                 }
@@ -146,9 +153,6 @@ public class GameAction {
                 System.out.println("O tiro atingiu a água!");
                 break;
             case "repeated":
-                if(player == Player.HUMANO) {
-                    System.out.println("\n** ATENÇÃO: Você já bombardeou este local, escolha outro **"); // TODO: repetir bombardeio
-                }
                 break;
         }
 
