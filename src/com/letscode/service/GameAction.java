@@ -10,10 +10,52 @@ import java.util.Scanner;
 
 public class GameAction {
 
-    private static char[] setBombingCoordinates(int round) {
+    public static void playGame(BattleshipBoard humanPlayer, BattleshipBoard machinePlayer){
+
+        System.out.println("\nO jogo vai começar:");
+
+        GameStatus status = GameStatus.JOGANDO;
+        Player currentPlayer = Player.HUMANO;
+        int humanAmountOfWholeShips = BattleshipGame.AMOUNT_OF_SHIPS;
+        int machineAmountOfWholeShips = BattleshipGame.AMOUNT_OF_SHIPS;
+
+        do {
+            if (currentPlayer == Player.HUMANO) {
+                humanPlayer.showBoard(Player.HUMANO);
+                machinePlayer.showBoardWithoutShips(Player.MAQUINA);
+            }
+
+            // Determinação das variáveis da rodada
+            int amountOfOpponentShips = setAmountOfOpponentShips(currentPlayer, humanAmountOfWholeShips, machineAmountOfWholeShips);
+            char[][] opponentGameBoard = setOpponentGameBoard(currentPlayer, humanPlayer.gameBoard, machinePlayer.gameBoard);
+            char[] bombCoordinates = setBombCoordinates(currentPlayer);
+
+            // Bombardeio
+            String bombingResult = bombOpponent(currentPlayer, bombCoordinates, opponentGameBoard);
+
+            // Atualização das variáveis da rodada
+            amountOfOpponentShips = updateBombingResult(currentPlayer, bombingResult, amountOfOpponentShips);
+
+            if (currentPlayer == Player.HUMANO) machineAmountOfWholeShips = amountOfOpponentShips;
+            if (currentPlayer == Player.MAQUINA) humanAmountOfWholeShips = amountOfOpponentShips;
+
+            status = updateGameStatus(amountOfOpponentShips, currentPlayer, status);
+            currentPlayer = updateCurrentPlayer(currentPlayer);
+
+            // Última rodada
+            if(status == GameStatus.JOGO_FINALIZADO){
+                machinePlayer.showBoardWithoutShips(Player.MAQUINA);
+                humanPlayer.showBoard(Player.HUMANO);
+            }
+
+        } while(status == GameStatus.JOGANDO);
+
+    }
+
+    private static char[] setBombCoordinates(Player player) {
         char[] coordinates = new char[2];
 
-        if (round % 2 == 0) {   // rodada jogador
+        if (player == Player.HUMANO) {
             Scanner readCoordinates = new Scanner(System.in);
 
             do {
@@ -35,7 +77,7 @@ public class GameAction {
             } while (Arrays.binarySearch(BattleshipGame.COLUMN_IDENTIFIERS, coordinates[1]) < 0);
         }
 
-        if (round % 2 != 0) {   // rodada computador
+        if (player == Player.MAQUINA) {
             int randomLine = (int) (Math.random() * BattleshipGame.AMOUNT_OF_BOARD_COORDINATES);
             int randomColumn = (int) (Math.random() * BattleshipGame.AMOUNT_OF_BOARD_COORDINATES);
 
@@ -46,21 +88,39 @@ public class GameAction {
         return coordinates;
     }
 
-    private static String bombOpponent(char[][] gameBoard, Player player, char[] bombCoordinates) {
+    private static char[][] setOpponentGameBoard(Player player, char[][] humanGameBoard, char[][] machineGameBoard) {
+        char[][] opponentGameBoard = new char[0][0];
+
+        if (player == Player.HUMANO) opponentGameBoard = machineGameBoard;
+        if (player == Player.MAQUINA) opponentGameBoard = humanGameBoard;
+
+        return opponentGameBoard;
+    }
+
+    private static int setAmountOfOpponentShips(Player player, int humanAmountOfWholeShips, int machineAmountOfWholeShips) {
+        int amountOfOpponentShips = 0;
+
+        if (player == Player.HUMANO) amountOfOpponentShips = machineAmountOfWholeShips;
+        if (player == Player.MAQUINA) amountOfOpponentShips = humanAmountOfWholeShips;
+
+        return amountOfOpponentShips;
+    }
+
+    private static String bombOpponent(Player player, char[] bombCoordinates, char[][] opponentGameBoard) {
         String bombingResult = "";
         char lineCoordinate = bombCoordinates[0];
         char columnCoordinate = bombCoordinates[1];
 
-        for (int i = 0; i < gameBoard.length; i++) {
-            if (gameBoard[i][1] == lineCoordinate) {
-                for (int j = 0; j < gameBoard[i].length; j++) {
-                    if (gameBoard[1][j] == columnCoordinate) {
-                        if (gameBoard[i][j] == 'N') {
-                            gameBoard[i][j] = '*';
+        for (int i = 0; i < opponentGameBoard.length; i++) {
+            if (opponentGameBoard[i][1] == lineCoordinate) {
+                for (int j = 0; j < opponentGameBoard[i].length; j++) {
+                    if (opponentGameBoard[1][j] == columnCoordinate) {
+                        if (opponentGameBoard[i][j] == 'N') {
+                            opponentGameBoard[i][j] = '*';
                             bombingResult = "accurate";
 
-                        } else if (gameBoard[i][j] == ' ') {
-                            gameBoard[i][j] = '-';
+                        } else if (opponentGameBoard[i][j] == ' ') {
+                            opponentGameBoard[i][j] = '-';
                             bombingResult = "missed";
 
                         } else {
@@ -75,9 +135,10 @@ public class GameAction {
         return bombingResult;
     }
 
-    private static void bombingResultMessage(Player player, String bombingResult) {
+    private static int updateBombingResult(Player player, String bombingResult, int amountOfOpponentShips) {
         switch (bombingResult) {
             case "accurate":
+                amountOfOpponentShips--;
                 System.out.printf("\nRodada %s: ",player);
                 System.out.println("Um navio inimigo foi atingido!");
                 break;
@@ -89,6 +150,8 @@ public class GameAction {
                 System.out.println("\n** ATENÇÃO: Você já bombardeou este local, escolha outro **");
                 break;
         }
+
+        return amountOfOpponentShips;
     }
 
     private static GameStatus updateGameStatus(int remainingShips, Player player, GameStatus gameStatus) {
@@ -108,72 +171,13 @@ public class GameAction {
         return gameStatus;
     }
 
-    public static void playGame(BattleshipBoard humanPlayer, BattleshipBoard machinePlayer){
-        int humanAmountOfWholeShips = BattleshipGame.AMOUNT_OF_SHIPS;
-        int machineAmountOfWholeShips = BattleshipGame.AMOUNT_OF_SHIPS;
+    private static Player updateCurrentPlayer(Player player) {
+        Player currentPlayer = player;
 
-        GameStatus status = GameStatus.JOGANDO;
-        int round = 0;
+        if (player == Player.HUMANO) currentPlayer = Player.MAQUINA;
+        if (player == Player.MAQUINA) currentPlayer = Player.HUMANO;
 
-        System.out.println("\nO jogo vai começar:");
-
-        do {
-            char[] bombCoordinates = new char[2];
-            char[][] opponentGameBoard = new char[0][0];
-            Player currentPlayer = Player.HUMANO;
-            String bombingResult;
-            int amountOfOpponentShips = 0;
-
-            if (round % 2 == 0) {   // rodada jogador
-                humanPlayer.showBoard(Player.HUMANO);
-                machinePlayer.showBoardWithoutShips(Player.MAQUINA);
-
-                bombCoordinates = GameAction.setBombingCoordinates(round);
-
-                currentPlayer = Player.HUMANO;
-                opponentGameBoard = machinePlayer.gameBoard;
-                amountOfOpponentShips = machineAmountOfWholeShips;
-            }
-
-            if (round % 2 != 0) {   // rodada computador
-                bombCoordinates = GameAction.setBombingCoordinates(round);
-
-                currentPlayer = Player.MAQUINA;
-                opponentGameBoard = humanPlayer.gameBoard;
-                amountOfOpponentShips = humanAmountOfWholeShips;
-            }
-
-            bombingResult = GameAction.bombOpponent(opponentGameBoard, currentPlayer, bombCoordinates);
-
-            switch (bombingResult) {
-                case "accurate":
-                    amountOfOpponentShips--;
-                    round++;
-                    break;
-                case "missed":
-                    round++;
-                    break;
-                case "repeated":
-                    break;
-            }
-
-            if (currentPlayer == Player.HUMANO) {
-                machineAmountOfWholeShips = amountOfOpponentShips;
-                GameAction.bombingResultMessage(currentPlayer,bombingResult);
-            } else {
-                humanAmountOfWholeShips = amountOfOpponentShips;
-                GameAction.bombingResultMessage(currentPlayer,bombingResult);
-            }
-
-            GameStatus roundResult = GameAction.updateGameStatus(amountOfOpponentShips, currentPlayer, status);
-            status = roundResult;
-
-            if(status == GameStatus.JOGO_FINALIZADO){
-                machinePlayer.showBoardWithoutShips(Player.MAQUINA);
-                humanPlayer.showBoard(Player.HUMANO);
-            }
-
-        } while(status == GameStatus.JOGANDO);
-
+        return currentPlayer;
     }
+
 }
