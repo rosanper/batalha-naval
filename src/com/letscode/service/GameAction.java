@@ -82,7 +82,7 @@ public class GameAction {
             } while (Arrays.binarySearch(BattleshipGame.COLUMN_IDENTIFIERS, coordinates[1]) < 0);
         }
 
-        if (player == Player.MAQUINA) { // TODO: validar repetição
+        if (player == Player.MAQUINA) {
             int randomLine = (int) (Math.random() * BattleshipGame.AMOUNT_OF_BOARD_COORDINATES);
             int randomColumn = (int) (Math.random() * BattleshipGame.AMOUNT_OF_BOARD_COORDINATES);
 
