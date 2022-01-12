@@ -9,10 +9,10 @@ public class BattleshipBoard {
     public char[][] gameBoard;
 
     public BattleshipBoard() {
-        this.gameBoard = this.createGameBoard();
+        this.gameBoard = this.setGameBoard();
     }
 
-    public char[][] createGameBoard() {
+    private char[][] setGameBoard() {
         char[][] board = new char[BattleshipGame.BOARD_SIZE][BattleshipGame.BOARD_SIZE];
         int columnIdentifierIndex = 0;
         int lineIdentifierIndex = 0;
@@ -92,7 +92,7 @@ public class BattleshipBoard {
         }else if(player == Player.MAQUINA){
             currentPlayer = "Máquina";
         }
-        System.out.printf("\nTabuleiro %s", player);
+        System.out.printf("\nTabuleiro %s", currentPlayer);
 
         for(int i = 0; i < this.gameBoard.length; i++){
             System.out.printf("\n");

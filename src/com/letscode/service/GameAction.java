@@ -5,6 +5,7 @@ import com.letscode.enums.GameStatus;
 import com.letscode.enums.Player;
 import com.letscode.utils.BattleshipBoard;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class GameAction {
@@ -15,11 +16,23 @@ public class GameAction {
         if (round % 2 == 0) {
             Scanner readCoordinates = new Scanner(System.in);
 
-            System.out.print("\nDigite a LINHA onde deseja bombardear: ");
-            coordinates[0] = readCoordinates.next().toUpperCase().charAt(0);
+            do {
+                System.out.print("\nDigite a LINHA onde deseja bombardear: ");
+                coordinates[0] = readCoordinates.next().toUpperCase().charAt(0);
 
-            System.out.print("Digite a COLUNA onde deseja bombardear: ");
-            coordinates[1] = readCoordinates.next().charAt(0);
+                if (Arrays.binarySearch(BattleshipGame.LINE_IDENTIFIERS, coordinates[0]) < 0) {
+                    System.out.println("** ATENÇÃO: Esta linha não existe, tente novamente **");
+                }
+            } while (Arrays.binarySearch(BattleshipGame.LINE_IDENTIFIERS, coordinates[0]) < 0);
+
+            do {
+                System.out.print("Digite a COLUNA onde deseja bombardear: ");
+                coordinates[1] = readCoordinates.next().charAt(0);
+
+                if (Arrays.binarySearch(BattleshipGame.COLUMN_IDENTIFIERS, coordinates[1]) < 0) {
+                    System.out.println("** ATENÇÃO: Esta coluna não existe, tente novamente **\n");
+                }
+            } while (Arrays.binarySearch(BattleshipGame.COLUMN_IDENTIFIERS, coordinates[1]) < 0);
         }
 
         if (round % 2 != 0) {
@@ -73,7 +86,7 @@ public class GameAction {
                 System.out.println("O tiro atingiu a água!");
                 break;
             case "repeated":
-                System.out.println("\n** ATENÇÃO: Você já bombardeou esse local, escolha outro **");
+                System.out.println("\n** ATENÇÃO: Você já bombardeou este local, escolha outro **");
                 break;
         }
     }

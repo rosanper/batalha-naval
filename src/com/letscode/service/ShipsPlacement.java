@@ -72,7 +72,7 @@ public class ShipsPlacement {
             for (int i = 0; i < createdShips; i++) {
                 if (shipsCoordinates[createdShips][0] == shipsCoordinates[i][0] && shipsCoordinates[createdShips][1] == shipsCoordinates[i][1]) {
                     shipWasPositioned = false;
-                    System.out.println("Já existe um navio nessas coordenadas, favor escolher novamente.");
+                    System.out.println("** ATENÇÃO: Já existe um navio nestas coordenadas, favor escolher novamente **");
                     break;
                 }
                 shipWasPositioned = true;

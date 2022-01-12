@@ -1,12 +1,9 @@
 package com.letscode;
 
-import com.letscode.enums.GameStatus;
 import com.letscode.enums.Player;
 import com.letscode.service.GameAction;
 import com.letscode.service.ShipsPlacement;
 import com.letscode.utils.BattleshipBoard;
-
-import java.util.Scanner;
 
 public class BattleshipGame {
 
