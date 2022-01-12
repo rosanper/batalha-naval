@@ -16,22 +16,22 @@ public class BattleshipGame {
     public static void main(String[] args) {
 
         // Criação dos tabuleiros
-        BattleshipBoard personPlayer = new BattleshipBoard();
+        BattleshipBoard humanPlayer = new BattleshipBoard();
         BattleshipBoard machinePlayer = new BattleshipBoard();
 
-        personPlayer.showBoard(Player.HUMANO);
+        humanPlayer.showBoard(Player.HUMANO);
 
         // Determinação das coordenadas dos navios
-        char[][] personShips = ShipsPlacement.readCoordinates();
+        char[][] humanShips = ShipsPlacement.readCoordinates();
         char[][] machineShips = ShipsPlacement.createRandomCoordinates();
 
         // Posicionamento dos navios nos tabluleiros
-        personPlayer.positionShips(personShips);
+        humanPlayer.positionShips(humanShips);
         machinePlayer.positionShips(machineShips);
 
-        personPlayer.showBoard(Player.HUMANO);
+        humanPlayer.showBoard(Player.HUMANO);
 
-        GameAction.playGame(personPlayer, machinePlayer);
+        GameAction.playGame(humanPlayer, machinePlayer);
     }
 
 
